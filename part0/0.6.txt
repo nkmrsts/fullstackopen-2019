@@ -1,0 +1,16 @@
+# https://www.websequencediagrams.com/
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over browser:
+browser add new note to local data(notes[])
+end note
+
+note over server:
+server add new note
+end note
+
+server-->browser: response
+
+note over browser:
+browser console "message"
+end note

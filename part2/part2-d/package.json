@@ -10,7 +10,7 @@
     "axios": "^0.19.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.3.0",
     "typescript": "3.7.2"
   },
   "scripts": {
@@ -22,6 +22,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "resolutions": {
+    "serialize-javascript": "^2.1.1"
   },
   "browserslist": {
     "production": [

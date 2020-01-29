@@ -37,15 +37,25 @@ const App = () => {
 
   const addPerson = (name, number) => {
     const personObject = { name, number }
-    personsService.create(personObject).then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-      clearForm()
+    personsService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        clearForm()
 
-      setErrorMessage(`Added ${returnedPerson.name}`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    })
+        setErrorMessage(`Added ${returnedPerson.name}`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+      .catch(error => {
+        // this is the way to access the error message
+        console.log(error.response.data)
+        setErrorMessage(error.response.data.error)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   const updatePerson = id => {

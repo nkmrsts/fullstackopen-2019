@@ -35,40 +35,31 @@ const favoriteBlog = blogs => {
 
 const mostBlogs = blogs => {
   // tests
-  const result = blogs.reduce((memo, item) => {
-    const findIndex = memo.findIndex(elm => {
-      return item.author === elm.author;
-    })
-    if (findIndex > -1) {
-      memo[findIndex].blogs += 1;
-    } else {
-      memo.push({
-        author: item.author,
-        blogs: 1
-      })
-    }
-    return memo
-  }, [])
-  return _.maxBy(result, "blogs")
+  return _.maxBy(pickObject(blogs, 'blogs'), "blogs")
 }
 
 const mostLikes = blogs => {
   // tests
-  const result = blogs.reduce((memo, item) => {
+  return _.maxBy(pickObject(blogs,'likes'), "likes")
+}
+
+const pickObject = (blogs, props) =>{
+  return blogs.reduce((memo, item) => {
     const findIndex = memo.findIndex(elm => {
       return item.author === elm.author
     })
+    const addNum = props === 'blogs' ? 1 : item[props]
+
     if (findIndex > -1) {
-      memo[findIndex].likes += item.likes
+      memo[findIndex][props] += addNum
     } else {
       memo.push({
         author: item.author,
-        likes: item.likes
+        [props]: addNum
       })
     }
     return memo
   }, [])
-  return _.maxBy(result, "likes")
 }
 
 module.exports = {

@@ -35,7 +35,7 @@ describe('most blog', () => {
   })
 })
 
-describe('most blog', () => {
+describe('most likes', () => {
   test('最もlikeの多い著者が等しいか', () => {
     const result = listHelper.mostLikes(blogs)
     expect(result).toEqual({

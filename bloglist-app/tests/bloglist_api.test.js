@@ -76,7 +76,7 @@ describe('when there is initially some blogs saved', () => {
   
   test("if request missing title and url property, return http 400 response", async () => {
     const newBlog = {
-      author: 'User1',
+      author: 'User1'
     }
     await api
       .post('/api/blogs')

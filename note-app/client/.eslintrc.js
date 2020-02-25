@@ -5,10 +5,10 @@ module.exports = {
     node: true,
     jest: true
   },
-  extends: "eslint:recommended",
+  extends: ['eslint:recommended', 'react-app'],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     sourceType: 'module',
@@ -20,4 +20,4 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error'
   }
-};
+}

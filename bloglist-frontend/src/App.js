@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const formatNewBlog = () => ({
   title: '',
@@ -127,11 +128,13 @@ function App() {
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>logout</button>
 
-      <BlogForm
-        newBlog={newBlog}
-        setNewBlog={setNewBlog}
-        createNewBlog={createNewBlog}
-      />
+      <Togglable buttonLabel="new blog">
+        <BlogForm
+          newBlog={newBlog}
+          setNewBlog={setNewBlog}
+          createNewBlog={createNewBlog}
+        />
+      </Togglable>
 
       {blogs.map(blog => (
         <Blog key={blog.id} blog={blog} />

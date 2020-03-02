@@ -3,6 +3,7 @@ import loginService from './services/login'
 import blogService from './services/blogs'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const formatNewBlog = () => ({
   title: '',
@@ -16,7 +17,8 @@ function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs => setBlogs(initialBlogs))
@@ -30,6 +32,15 @@ function App() {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const notificationHandler = (message, isError = false) => {
+    setError(isError)
+    setNotificationMessage(message)
+    setTimeout(() => {
+      setNotificationMessage(null)
+      setError(false)
+    }, 10000)
+  }
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -46,11 +57,9 @@ function App() {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      notificationHandler(`logged in`, false)
+    } catch (error) {
+      notificationHandler(error.response.data.error, true)
     }
   }
 
@@ -62,10 +71,19 @@ function App() {
   const createNewBlog = event => {
     event.preventDefault()
 
-    blogService.create(newBlog).then(data => {
-      setBlogs(blogs.concat(data))
-      setNewBlog(formatNewBlog())
-    })
+    blogService
+      .create(newBlog)
+      .then(data => {
+        setBlogs(blogs.concat(data))
+        setNewBlog(formatNewBlog())
+        notificationHandler(
+          `a new blog${data.title} by ${data.author} added`,
+          false
+        )
+      })
+      .catch(error => {
+        notificationHandler(error.response.data.error, true)
+      })
   }
 
   const loginForm = () => (
@@ -95,9 +113,8 @@ function App() {
   if (user === null) {
     return (
       <div>
-        <div className="error">{errorMessage}</div>
-
         <h2>Log in to application</h2>
+        <Notification message={notificationMessage} isError={error} />
         {loginForm()}
       </div>
     )
@@ -106,6 +123,7 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notificationMessage} isError={error} />
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>logout</button>
 

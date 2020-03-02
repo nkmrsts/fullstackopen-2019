@@ -87,6 +87,24 @@ function App() {
       })
   }
 
+  const likeBlog = blog => {
+    const newBlog = {
+      ...blog,
+      likes: blog.likes + 1
+    }
+    blogService
+      .update(blog.id, newBlog)
+      .then(returnedBlog => {
+        setBlogs(
+          blogs.map(_blog => (_blog.id !== blog.id ? _blog : returnedBlog))
+        )
+        notificationHandler(`update blog`, false)
+      })
+      .catch(error => {
+        notificationHandler(error.response.data.error, true)
+      })
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -139,7 +157,7 @@ function App() {
       </Togglable>
 
       {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleClickLike={likeBlog} />
       ))}
     </div>
   )

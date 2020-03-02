@@ -125,8 +125,10 @@ function App() {
     <div>
       <h2>blogs</h2>
       <Notification message={notificationMessage} isError={error} />
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>logout</button>
+      <div>
+        <span>{user.name} logged in</span>
+        <button onClick={handleLogout}>logout</button>
+      </div>
 
       <Togglable buttonLabel="new blog">
         <BlogForm

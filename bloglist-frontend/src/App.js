@@ -105,6 +105,21 @@ function App() {
       })
   }
 
+  const deleteBlog = blog => {
+    const result = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
+    if (result) {
+      blogService
+        .deleteBlog(blog.id)
+        .then(() => {
+          setBlogs(blogs.filter(_blog => _blog.id !== blog.id))
+          notificationHandler(`delete blog`, false)
+        })
+        .catch(error => {
+          notificationHandler(error.response.data.error, true)
+        })
+    }
+  }
+
   const handleSort = () => {
     setBlogs(blogs.slice().sort((a, b) => b.likes - a.likes))
   }
@@ -162,7 +177,12 @@ function App() {
       <button onClick={handleSort}>sort</button>
 
       {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} handleClickLike={likeBlog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleClickLike={likeBlog}
+          handleClickDelete={deleteBlog}
+        />
       ))}
     </div>
   )

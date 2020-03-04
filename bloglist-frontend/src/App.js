@@ -180,6 +180,7 @@ function App() {
         <Blog
           key={blog.id}
           blog={blog}
+          user={user}
           handleClickLike={likeBlog}
           handleClickDelete={deleteBlog}
         />

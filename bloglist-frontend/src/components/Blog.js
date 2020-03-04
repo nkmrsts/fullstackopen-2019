@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({ blog, handleClickLike, handleClickDelete }) => {
+const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
   const [visible, setVisible] = useState(false)
 
   const toggleVisible = () => {
@@ -25,9 +25,11 @@ const Blog = ({ blog, handleClickLike, handleClickDelete }) => {
         <button onClick={() => handleClickLike(blog)}>like</button>
       </li>
       <li>added by {blog.author}</li>
-      <li>
-        <button onClick={() => handleClickDelete(blog)}>delete</button>
-      </li>
+      {blog.user && blog.user.name === user.name && (
+        <li>
+          <button onClick={() => handleClickDelete(blog)}>delete</button>
+        </li>
+      )}
     </ul>
   )
 

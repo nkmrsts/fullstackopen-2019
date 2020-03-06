@@ -15,7 +15,7 @@ const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
   }
 
   const showWhenVisible = () => (
-    <ul>
+    <ul className="blog-showWhenVisible">
       <li onClick={toggleVisible}>
         <strong>{blog.title}</strong>
       </li>
@@ -33,15 +33,15 @@ const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
     </ul>
   )
 
-  const hidehenVisible = () => (
-    <div onClick={toggleVisible}>
+  const hideWhenVisible = () => (
+    <div onClick={toggleVisible} className="blog-hideWhenVisible">
       <strong>{blog.title}</strong>: {blog.author}
     </div>
   )
 
   return (
     <div style={blogStyle}>
-      {visible ? showWhenVisible() : hidehenVisible()}
+      {visible ? showWhenVisible() : hideWhenVisible()}
     </div>
   )
 }

@@ -40,7 +40,7 @@ const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
   )
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog-info">
       {visible ? showWhenVisible() : hideWhenVisible()}
     </div>
   )

@@ -26,7 +26,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -52,7 +52,7 @@ function App() {
         password
       })
 
-      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
       setUser(user)
@@ -65,7 +65,7 @@ function App() {
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedNoteappUser')
+    window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
   }
 
@@ -176,11 +176,12 @@ function App() {
       </Togglable>
       <button onClick={handleSort}>sort</button>
 
-      {blogs.map(blog => (
+      {blogs.map((blog, index) => (
         <Blog
           key={blog.id}
           blog={blog}
           user={user}
+          key={index}
           handleClickLike={likeBlog}
           handleClickDelete={deleteBlog}
         />

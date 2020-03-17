@@ -7,17 +7,13 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
-const formatNewBlog = () => ({
-  title: '',
-  author: '',
-  url: ''
-})
-
 function App() {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState(formatNewBlog())
   const username = useField('text')
   const password = useField('password')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const [user, setUser] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [error, setError] = useState(false)
@@ -70,14 +66,22 @@ function App() {
     setUser(null)
   }
 
-  const createNewBlog = event => {
+  const addNewBlog = event => {
     event.preventDefault()
+
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value
+    }
 
     blogService
       .create(newBlog)
       .then(data => {
         setBlogs(blogs.concat(data))
-        setNewBlog(formatNewBlog())
+        title.reset()
+        author.reset()
+        url.reset()
         notificationHandler(
           `a new blog${data.title} by ${data.author} added`,
           false
@@ -160,9 +164,10 @@ function App() {
 
       <Togglable buttonLabel="new blog">
         <BlogForm
-          newBlog={newBlog}
-          setNewBlog={setNewBlog}
-          createNewBlog={createNewBlog}
+          title={title}
+          author={author}
+          url={url}
+          addNewBlog={addNewBlog}
         />
       </Togglable>
       <button onClick={handleSort}>sort</button>

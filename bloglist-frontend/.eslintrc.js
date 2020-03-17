@@ -16,8 +16,9 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: ['prettier'],
+  plugins: ['react-hooks', 'prettier'],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
     'prettier/prettier': 'error'
   }
 }

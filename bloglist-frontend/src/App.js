@@ -136,8 +136,8 @@ function App() {
         <h2>Log in to application</h2>
         <Notification notification={notification} />
         <LoginForm
-          username={username}
-          password={password}
+          username={username.excludeReset}
+          password={password.excludeReset}
           handleLogin={handleLogin}
         />
       </div>
@@ -155,9 +155,9 @@ function App() {
 
       <Togglable buttonLabel="new blog">
         <BlogForm
-          title={title}
-          author={author}
-          url={url}
+          title={title.excludeReset}
+          author={author.excludeReset}
+          url={url.excludeReset}
           addNewBlog={addNewBlog}
         />
       </Togglable>
@@ -165,7 +165,6 @@ function App() {
 
       {blogs.map((blog, index) => (
         <Blog
-          key={blog.id}
           blog={blog}
           user={user}
           key={index}

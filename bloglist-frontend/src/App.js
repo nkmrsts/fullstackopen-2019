@@ -45,8 +45,8 @@ function App() {
 
     try {
       const user = await loginService.login({
-        username,
-        password
+        username: username.value,
+        password: password.value
       })
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))

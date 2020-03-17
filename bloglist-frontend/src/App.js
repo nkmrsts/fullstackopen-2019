@@ -5,6 +5,7 @@ import blogService from './services/blogs'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 
 function App() {
@@ -129,26 +130,16 @@ function App() {
     setBlogs(blogs.slice().sort((a, b) => b.likes - a.likes))
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input {...username} name="Username" />
-      </div>
-      <div>
-        password
-        <input {...password} name="Password" />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
-
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
         <Notification notification={notification} />
-        {loginForm()}
+        <LoginForm
+          username={username}
+          password={password}
+          handleLogin={handleLogin}
+        />
       </div>
     )
   }

@@ -15,8 +15,10 @@ function App() {
   const author = useField('text')
   const url = useField('text')
   const [user, setUser] = useState(null)
-  const [notificationMessage, setNotificationMessage] = useState(null)
-  const [error, setError] = useState(false)
+  const [notification, setNotification] = useState({
+    message: null,
+    error: false
+  })
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs => setBlogs(initialBlogs))
@@ -31,12 +33,10 @@ function App() {
     }
   }, [])
 
-  const notificationHandler = (message, isError = false) => {
-    setError(isError)
-    setNotificationMessage(message)
+  const notificationHandler = (message, error = false) => {
+    setNotification({ message, error })
     setTimeout(() => {
-      setNotificationMessage(null)
-      setError(false)
+      setNotification({ message: null, error: false })
     }, 10000)
   }
 
@@ -147,7 +147,7 @@ function App() {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={notificationMessage} isError={error} />
+        <Notification notification={notification} />
         {loginForm()}
       </div>
     )
@@ -156,7 +156,7 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={notificationMessage} isError={error} />
+      <Notification notification={notification} />
       <div>
         <span>{user.name} logged in</span>
         <button onClick={handleLogout}>logout</button>

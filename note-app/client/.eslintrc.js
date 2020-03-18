@@ -5,10 +5,10 @@ module.exports = {
     node: true,
     jest: true
   },
-  extends: "eslint:recommended",
+  extends: ['eslint:recommended', 'react-app'],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     sourceType: 'module',
@@ -16,8 +16,9 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: ['prettier'],
+  plugins: ['react-hooks', 'prettier'],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
     'prettier/prettier': 'error'
   }
-};
+}

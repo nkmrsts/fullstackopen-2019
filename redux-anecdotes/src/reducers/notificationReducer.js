@@ -4,12 +4,12 @@
 export const setNotification = content => {
   return dispatch => {
     dispatch({
-      type: "SET",
+      type: "SET_NOTIFICATION",
       content
     });
     setTimeout(() => {
       dispatch({
-        type: "CLEAR"
+        type: "CLEAR_NOTIFICATION"
       });
     }, 5000);
   };
@@ -17,16 +17,16 @@ export const setNotification = content => {
 
 export const clearNotification = () => {
   return {
-    type: "CLEAR"
+    type: "CLEAR_NOTIFICATION"
   };
 };
 
 const reducer = (state = "", action) => {
   switch (action.type) {
-    case "SET":
+    case "SET_NOTIFICATION":
       return action.content;
 
-    case "CLEAR":
+    case "CLEAR_NOTIFICATION":
       return "";
 
     default:

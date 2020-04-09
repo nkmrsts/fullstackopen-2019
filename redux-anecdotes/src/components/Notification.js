@@ -6,7 +6,12 @@ const Notification = ({ store }) => {
     padding: 10,
     borderWidth: 1
   };
-  return <div style={style}>{store.getState().notification}...</div>;
+
+  return store.getState().notification ? (
+    <div style={style}>{store.getState().notification}</div>
+  ) : (
+    false
+  );
 };
 
 export default Notification;

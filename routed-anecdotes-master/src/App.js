@@ -85,7 +85,12 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = (props) => {
+const Notification = ({ notification }) => {
+  if (notification) return <p>{notification}</p>;
+  return false;
+};
+
+const CreateNew = withRouter((props) => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
@@ -98,6 +103,11 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    props.history.push("/");
+    props.setNotification(`a new anecdote ${content} created!`);
+    window.setTimeout(() => {
+      props.setNotification("");
+    }, 10000);
   };
 
   return (
@@ -132,7 +142,7 @@ const CreateNew = (props) => {
       </form>
     </div>
   );
-};
+});
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -177,6 +187,7 @@ const App = () => {
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        <Notification notification={notification} />
         <Route
           exact
           path="/"
@@ -193,7 +204,9 @@ const App = () => {
         <Route
           exact
           path="/create"
-          render={() => <CreateNew addNew={addNew} />}
+          render={() => (
+            <CreateNew addNew={addNew} setNotification={setNotification} />
+          )}
         />
         <Footer />
       </div>

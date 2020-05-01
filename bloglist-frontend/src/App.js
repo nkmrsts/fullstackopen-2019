@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import blogService from './services/blogs'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
@@ -10,13 +10,7 @@ import { connect } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import { setBlogs } from './reducers/blogsReducer'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 function App(props) {
   useEffect(() => {

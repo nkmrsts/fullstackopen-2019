@@ -15,10 +15,7 @@ import { setBlogs } from './reducers/blogsReducer'
 function App(props) {
   const username = useField('text')
   const password = useField('password')
-  const title = useField('text')
-  const author = useField('text')
-  const url = useField('text')
-
+  
   useEffect(() => {
     blogService.getAll().then(initialBlogs => props.setBlogs(initialBlogs))
   }, [])
@@ -60,32 +57,6 @@ function App(props) {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
     props.setUser(null)
-  }
-
-  const addNewBlog = event => {
-    event.preventDefault()
-
-    const newBlog = {
-      title: title.value,
-      author: author.value,
-      url: url.value
-    }
-
-    blogService
-      .create(newBlog)
-      .then(data => {
-        props.setBlogs(props.blogs.concat(data))
-        title.reset()
-        author.reset()
-        url.reset()
-        notificationHandler(
-          `a new blog${data.title} by ${data.author} added`,
-          false
-        )
-      })
-      .catch(error => {
-        notificationHandler(error.response.data.error, true)
-      })
   }
 
   const likeBlog = blog => {
@@ -149,12 +120,7 @@ function App(props) {
       </div>
 
       <Togglable buttonLabel="new blog">
-        <BlogForm
-          title={title.excludeReset}
-          author={author.excludeReset}
-          url={url.excludeReset}
-          addNewBlog={addNewBlog}
-        />
+        <BlogForm />
       </Togglable>
       <button onClick={handleSort}>sort</button>
 

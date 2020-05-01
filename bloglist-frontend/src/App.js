@@ -16,13 +16,12 @@ import {
   Link,
   Redirect,
   withRouter,
-} from "react-router-dom";
+} from 'react-router-dom'
 
 function App(props) {
-  
   useEffect(() => {
-    blogService.getAll().then(initialBlogs => props.setBlogs(initialBlogs))
-  }, [])
+    blogService.getAll().then((initialBlogs) => props.setBlogs(initialBlogs))
+  }, [props])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -31,7 +30,7 @@ function App(props) {
       props.setUser(user)
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [props])
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
@@ -42,7 +41,7 @@ function App(props) {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification/>
+        <Notification />
         <LoginForm />
       </div>
     )
@@ -53,7 +52,7 @@ function App(props) {
       <Togglable buttonLabel="new blog">
         <BlogForm />
       </Togglable>
-      <Blogs/>
+      <Blogs />
     </div>
   )
 
@@ -61,38 +60,30 @@ function App(props) {
     <Router>
       <div>
         <h2>blogs</h2>
-        <Notification/>
+        <Notification />
         <div>
           <span>{props.user.name} logged in</span>
           <button onClick={handleLogout}>logout</button>
         </div>
 
-        <Route
-          exact
-          path="/"
-          render={() => <AllView />}
-        />
+        <Route exact path="/" render={() => <AllView />} />
 
-        <Route
-          exact
-          path="/users"
-          render={() => <Users />}
-        />
+        <Route exact path="/users" render={() => <Users />} />
       </div>
     </Router>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
-    blogs: state.blogs
-  };
-};
+    blogs: state.blogs,
+  }
+}
 const mapDispatchToProps = {
   setUser,
   setNotification,
-  setBlogs
-};
+  setBlogs,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -4,22 +4,22 @@ const blogs = [
     author: 'Test Tarou',
     url: '',
     likes: 1,
-    user: 'root'
+    user: 'root',
   },
   {
     title: 'Test2',
     author: 'Test Tarou',
     url: '',
     likes: 0,
-    user: 'root'
+    user: 'root',
   },
   {
     title: 'Test3',
     author: 'Test Tarou',
     url: '',
     likes: 9,
-    user: 'root'
-  }
+    user: 'root',
+  },
 ]
 
 let token = null
@@ -28,7 +28,7 @@ const getAll = () => {
   return Promise.resolve(blogs)
 }
 
-const setToken = newToken => {
+const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
 

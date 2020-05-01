@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, waitForElement, fireEvent } from '@testing-library/react'
-jest.mock('./services/blogs')
 import App from './App'
+jest.mock('./services/blogs')
 
 describe('<App />', () => {
   test('if no user logged, blogs are not rendered', async () => {
@@ -19,7 +19,7 @@ describe('<App />', () => {
     const user = {
       username: 'tester',
       token: '1231231214',
-      name: 'Donald Tester'
+      name: 'Donald Tester',
     }
     localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 

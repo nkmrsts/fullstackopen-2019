@@ -6,23 +6,22 @@ import { setNotification } from '../reducers/notificationReducer'
 import { setBlogs } from '../reducers/blogsReducer'
 
 const BlogForm = (props) => {
-
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
 
-  const addNewBlog = event => {
+  const addNewBlog = (event) => {
     event.preventDefault()
 
     const newBlog = {
       title: title.value,
       author: author.value,
-      url: url.value
+      url: url.value,
     }
 
     blogService
       .create(newBlog)
-      .then(data => {
+      .then((data) => {
         props.setBlogs(props.blogs.concat(data))
         title.reset()
         author.reset()
@@ -32,38 +31,38 @@ const BlogForm = (props) => {
           false
         )
       })
-      .catch(error => {
+      .catch((error) => {
         setNotification(error.response.data.error, true)
       })
   }
-  
+
   return (
-      <form onSubmit={addNewBlog}>
-        <div>
-          title
-          <input name="title" {...title.excludeReset} />
-        </div>
-        <div>
-          author
-          <input name="author" {...author.excludeReset} />
-        </div>
-        <div>
-          url
-          <input {...url.excludeReset} name="url" />
-        </div>
-        <button type="submit">create</button>
-      </form>
+    <form onSubmit={addNewBlog}>
+      <div>
+        title
+        <input name="title" {...title.excludeReset} />
+      </div>
+      <div>
+        author
+        <input name="author" {...author.excludeReset} />
+      </div>
+      <div>
+        url
+        <input {...url.excludeReset} name="url" />
+      </div>
+      <button type="submit">create</button>
+    </form>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    blogs: state.blogs
-  };
-};
+    blogs: state.blogs,
+  }
+}
 const mapDispatchToProps = {
   setNotification,
-  setBlogs
-};
+  setBlogs,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogForm)

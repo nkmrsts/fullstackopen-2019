@@ -14,7 +14,7 @@ const middleWares = [thunk]
 const reducer = combineReducers({
   notification: notificationReducer,
   user: userReducer,
-  blogs: blogsReducer
+  blogs: blogsReducer,
 })
 
 const store = createStore(reducer, applyMiddleware(...middleWares))

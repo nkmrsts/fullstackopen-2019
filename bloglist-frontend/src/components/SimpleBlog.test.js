@@ -7,7 +7,7 @@ describe('<SimpleBlog />', () => {
   const blog = {
     title: 'Test text',
     author: 'test user',
-    likes: 4
+    likes: 4,
   }
   const mockHandler = jest.fn()
 

@@ -10,13 +10,13 @@ const LoginForm = (props) => {
   const username = useField('text')
   const password = useField('password')
 
-  const handleLogin = async event => {
+  const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
       const user = await loginService.login({
         username: username.value,
-        password: password.value
+        password: password.value,
       })
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
@@ -46,15 +46,15 @@ const LoginForm = (props) => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    blogs: state.blogs
+    blogs: state.blogs,
   }
 }
 
 const mapDispatchToProps = {
   setUser,
-  setNotification
+  setNotification,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

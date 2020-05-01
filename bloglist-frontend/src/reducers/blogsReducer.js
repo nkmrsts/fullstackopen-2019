@@ -10,10 +10,10 @@ const blogsReducer = (state = [], action) => {
 /*
  * action creators
  */
-export const setBlogs = blogs => {
+export const setBlogs = (blogs) => {
   return {
     type: 'SET_BLOGS',
-    blogs
+    blogs,
   }
 }
 

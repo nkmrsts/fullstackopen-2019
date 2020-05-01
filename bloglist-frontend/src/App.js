@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
+import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
@@ -9,6 +10,13 @@ import { connect } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import { setBlogs } from './reducers/blogsReducer'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter,
+} from "react-router-dom";
 
 function App(props) {
   
@@ -30,10 +38,6 @@ function App(props) {
     props.setUser(null)
   }
 
-  const handleSort = () => {
-    props.setBlogs(props.blogs.slice().sort((a, b) => b.likes - a.likes))
-  }
-
   if (props.user === null) {
     return (
       <div>
@@ -44,22 +48,38 @@ function App(props) {
     )
   }
 
-  return (
+  const AllView = () => (
     <div>
-      <h2>blogs</h2>
-      <Notification/>
-      <div>
-        <span>{props.user.name} logged in</span>
-        <button onClick={handleLogout}>logout</button>
-      </div>
-
       <Togglable buttonLabel="new blog">
         <BlogForm />
       </Togglable>
-      <button onClick={handleSort}>sort</button>
-
       <Blogs/>
     </div>
+  )
+
+  return (
+    <Router>
+      <div>
+        <h2>blogs</h2>
+        <Notification/>
+        <div>
+          <span>{props.user.name} logged in</span>
+          <button onClick={handleLogout}>logout</button>
+        </div>
+
+        <Route
+          exact
+          path="/"
+          render={() => <AllView />}
+        />
+
+        <Route
+          exact
+          path="/users"
+          render={() => <Users />}
+        />
+      </div>
+    </Router>
   )
 }
 

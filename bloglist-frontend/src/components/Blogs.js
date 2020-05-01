@@ -40,7 +40,12 @@ const Blogs = (props) => {
     }
   }
 
-  return <>
+  const handleSort = () => {
+    props.setBlogs(props.blogs.slice().sort((a, b) => b.likes - a.likes))
+  }
+
+  return <div>
+    <button onClick={handleSort}>sort</button>
     {props.blogs.map((blog, index) => (
       <Blog
         blog={blog}
@@ -50,7 +55,7 @@ const Blogs = (props) => {
         handleClickDelete={deleteBlog}
       />
     ))}
-  </>
+  </div>
 }
 
 

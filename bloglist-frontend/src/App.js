@@ -10,9 +10,9 @@ import Togglable from './components/Togglable'
 import { connect } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
+import { setBlogs } from './reducers/blogsReducer'
 
 function App(props) {
-  const [blogs, setBlogs] = useState([])
   const username = useField('text')
   const password = useField('password')
   const title = useField('text')
@@ -20,7 +20,7 @@ function App(props) {
   const url = useField('text')
 
   useEffect(() => {
-    blogService.getAll().then(initialBlogs => setBlogs(initialBlogs))
+    blogService.getAll().then(initialBlogs => props.setBlogs(initialBlogs))
   }, [])
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function App(props) {
     blogService
       .create(newBlog)
       .then(data => {
-        setBlogs(blogs.concat(data))
+        props.setBlogs(props.blogs.concat(data))
         title.reset()
         author.reset()
         url.reset()
@@ -96,8 +96,8 @@ function App(props) {
     blogService
       .update(blog.id, newBlog)
       .then(returnedBlog => {
-        setBlogs(
-          blogs.map(_blog => (_blog.id !== blog.id ? _blog : returnedBlog))
+        props.setBlogs(
+          props.blogs.map(_blog => (_blog.id !== blog.id ? _blog : returnedBlog))
         )
         notificationHandler(`update blog`, false)
       })
@@ -112,7 +112,7 @@ function App(props) {
       blogService
         .deleteBlog(blog.id)
         .then(() => {
-          setBlogs(blogs.filter(_blog => _blog.id !== blog.id))
+          props.setBlogs(props.blogs.filter(_blog => _blog.id !== blog.id))
           notificationHandler(`delete blog`, false)
         })
         .catch(error => {
@@ -122,7 +122,7 @@ function App(props) {
   }
 
   const handleSort = () => {
-    setBlogs(blogs.slice().sort((a, b) => b.likes - a.likes))
+    props.setBlogs(props.blogs.slice().sort((a, b) => b.likes - a.likes))
   }
 
   if (props.user === null) {
@@ -158,7 +158,7 @@ function App(props) {
       </Togglable>
       <button onClick={handleSort}>sort</button>
 
-      {blogs.map((blog, index) => (
+      {props.blogs.map((blog, index) => (
         <Blog
           blog={blog}
           user={props.user}
@@ -173,12 +173,14 @@ function App(props) {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    blogs: state.blogs
   };
 };
 const mapDispatchToProps = {
   setUser,
-  setNotification
+  setNotification,
+  setBlogs
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

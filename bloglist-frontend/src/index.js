@@ -7,12 +7,14 @@ import App from './App'
 import './index.css'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
+import blogsReducer from './reducers/blogsReducer'
 
 const middleWares = [thunk]
 
 const reducer = combineReducers({
   notification: notificationReducer,
-  user: userReducer
+  user: userReducer,
+  blogs: blogsReducer
 })
 
 const store = createStore(reducer, applyMiddleware(...middleWares))

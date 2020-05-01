@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useField } from './hooks'
-import loginService from './services/login'
 import blogService from './services/blogs'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
@@ -13,8 +11,6 @@ import { setUser } from './reducers/userReducer'
 import { setBlogs } from './reducers/blogsReducer'
 
 function App(props) {
-  const username = useField('text')
-  const password = useField('password')
   
   useEffect(() => {
     blogService.getAll().then(initialBlogs => props.setBlogs(initialBlogs))
@@ -28,31 +24,6 @@ function App(props) {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const notificationHandler = (message, error = false) => {
-    props.setNotification(message, error)
-  }
-
-  const handleLogin = async event => {
-    event.preventDefault()
-
-    try {
-      const user = await loginService.login({
-        username: username.value,
-        password: password.value
-      })
-
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-
-      blogService.setToken(user.token)
-      props.setUser(user)
-      username.reset()
-      password.reset()
-      notificationHandler(`logged in`, false)
-    } catch (error) {
-      notificationHandler(error.response.data.error, true)
-    }
-  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
@@ -68,11 +39,7 @@ function App(props) {
       <div>
         <h2>Log in to application</h2>
         <Notification/>
-        <LoginForm
-          username={username.excludeReset}
-          password={password.excludeReset}
-          handleLogin={handleLogin}
-        />
+        <LoginForm />
       </div>
     )
   }

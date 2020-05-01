@@ -7,8 +7,10 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import { connect } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
 
-function App() {
+function App(props) {
   const [blogs, setBlogs] = useState([])
   const username = useField('text')
   const password = useField('password')
@@ -16,10 +18,6 @@ function App() {
   const author = useField('text')
   const url = useField('text')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState({
-    message: null,
-    error: false
-  })
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs => setBlogs(initialBlogs))
@@ -35,10 +33,7 @@ function App() {
   }, [])
 
   const notificationHandler = (message, error = false) => {
-    setNotification({ message, error })
-    setTimeout(() => {
-      setNotification({ message: null, error: false })
-    }, 10000)
+    props.setNotification(message, error)
   }
 
   const handleLogin = async event => {
@@ -134,7 +129,7 @@ function App() {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification notification={notification} />
+        <Notification/>
         <LoginForm
           username={username.excludeReset}
           password={password.excludeReset}
@@ -147,7 +142,7 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification notification={notification} />
+      <Notification/>
       <div>
         <span>{user.name} logged in</span>
         <button onClick={handleLogout}>logout</button>
@@ -176,4 +171,4 @@ function App() {
   )
 }
 
-export default App
+export default connect(null, { setNotification })(App)

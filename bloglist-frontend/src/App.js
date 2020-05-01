@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useField } from './hooks'
 import loginService from './services/login'
 import blogService from './services/blogs'
-import Blog from './components/Blog'
+import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -59,39 +59,6 @@ function App(props) {
     props.setUser(null)
   }
 
-  const likeBlog = blog => {
-    const newBlog = {
-      ...blog,
-      likes: blog.likes + 1
-    }
-    blogService
-      .update(blog.id, newBlog)
-      .then(returnedBlog => {
-        props.setBlogs(
-          props.blogs.map(_blog => (_blog.id !== blog.id ? _blog : returnedBlog))
-        )
-        notificationHandler(`update blog`, false)
-      })
-      .catch(error => {
-        notificationHandler(error.response.data.error, true)
-      })
-  }
-
-  const deleteBlog = blog => {
-    const result = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
-    if (result) {
-      blogService
-        .deleteBlog(blog.id)
-        .then(() => {
-          props.setBlogs(props.blogs.filter(_blog => _blog.id !== blog.id))
-          notificationHandler(`delete blog`, false)
-        })
-        .catch(error => {
-          notificationHandler(error.response.data.error, true)
-        })
-    }
-  }
-
   const handleSort = () => {
     props.setBlogs(props.blogs.slice().sort((a, b) => b.likes - a.likes))
   }
@@ -124,15 +91,7 @@ function App(props) {
       </Togglable>
       <button onClick={handleSort}>sort</button>
 
-      {props.blogs.map((blog, index) => (
-        <Blog
-          blog={blog}
-          user={props.user}
-          key={index}
-          handleClickLike={likeBlog}
-          handleClickDelete={deleteBlog}
-        />
-      ))}
+      <Blogs/>
     </div>
   )
 }

@@ -85,10 +85,7 @@ const Footer = () => (
   </div>
 );
 
-const Notification = ({ notification }) => {
-  if (notification) return <p>{notification}</p>;
-  return false;
-};
+const Notification = ({ notification }) => <p>{notification}</p>;
 
 const CreateNew = withRouter((props) => {
   const [content, setContent] = useState("");
@@ -187,7 +184,7 @@ const App = () => {
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
-        <Notification notification={notification} />
+        {notification && <Notification notification={notification} />}
         <Route
           exact
           path="/"

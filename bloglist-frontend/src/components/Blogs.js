@@ -1,11 +1,15 @@
 import React from 'react'
 import Blog from '../components/Blog'
 import blogService from '../services/blogs'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { setBlogs } from '../reducers/blogsReducer'
 
-const Blogs = (props) => {
+const Blogs = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+  const blogs = useSelector((state) => state.blogs)
+
   const likeBlog = (blog) => {
     const newBlog = {
       ...blog,
@@ -14,15 +18,15 @@ const Blogs = (props) => {
     blogService
       .update(blog.id, newBlog)
       .then((returnedBlog) => {
-        props.setBlogs(
-          props.blogs.map((_blog) =>
-            _blog.id !== blog.id ? _blog : returnedBlog
+        dispatch(
+          setBlogs(
+            blogs.map((_blog) => (_blog.id !== blog.id ? _blog : returnedBlog))
           )
         )
-        props.setNotification(`update blog`, false)
+        dispatch(setNotification(`update blog`, false))
       })
       .catch((error) => {
-        props.setNotification(error.response.data.error, true)
+        dispatch(setNotification(error.response.data.error, true))
       })
   }
 
@@ -32,26 +36,26 @@ const Blogs = (props) => {
       blogService
         .deleteBlog(blog.id)
         .then(() => {
-          props.setBlogs(props.blogs.filter((_blog) => _blog.id !== blog.id))
-          props.setNotification(`delete blog`, false)
+          dispatch(setBlogs(blogs.filter((_blog) => _blog.id !== blog.id)))
+          dispatch(setNotification(`delete blog`, false))
         })
         .catch((error) => {
-          props.setNotification(error.response.data.error, true)
+          dispatch(setNotification(error.response.data.error, true))
         })
     }
   }
 
   const handleSort = () => {
-    props.setBlogs(props.blogs.slice().sort((a, b) => b.likes - a.likes))
+    dispatch(setBlogs(blogs.slice().sort((a, b) => b.likes - a.likes)))
   }
 
   return (
     <div>
       <button onClick={handleSort}>sort</button>
-      {props.blogs.map((blog, index) => (
+      {blogs.map((blog, index) => (
         <Blog
           blog={blog}
-          user={props.user}
+          user={user}
           key={index}
           handleClickLike={likeBlog}
           handleClickDelete={deleteBlog}
@@ -61,15 +65,4 @@ const Blogs = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    blogs: state.blogs,
-  }
-}
-const mapDispatchToProps = {
-  setBlogs,
-  setNotification,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Blogs)
+export default Blogs

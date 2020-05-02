@@ -1,11 +1,14 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useField } from '../hooks'
-import { connect } from 'react-redux'
-import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { setBlogs } from '../reducers/blogsReducer'
+import blogService from '../services/blogs'
 
-const BlogForm = (props) => {
+const BlogForm = () => {
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
+
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -22,17 +25,19 @@ const BlogForm = (props) => {
     blogService
       .create(newBlog)
       .then((data) => {
-        props.setBlogs(props.blogs.concat(data))
+        dispatch(setBlogs(blogs.concat(data)))
         title.reset()
         author.reset()
         url.reset()
-        setNotification(
-          `a new blog${data.title} by ${data.author} added`,
-          false
+        dispatch(
+          setNotification(
+            `a new blog${data.title} by ${data.author} added`,
+            false
+          )
         )
       })
       .catch((error) => {
-        setNotification(error.response.data.error, true)
+        dispatch(setNotification(error.response.data.error, true))
       })
   }
 
@@ -55,14 +60,4 @@ const BlogForm = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    blogs: state.blogs,
-  }
-}
-const mapDispatchToProps = {
-  setNotification,
-  setBlogs,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlogForm)
+export default BlogForm

@@ -1,16 +1,18 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const Notification = (props) => {
-  if (props.message === null) {
+const Notification = () => {
+  const notification = useSelector((state) => state.notification)
+
+  if (notification.message === null) {
     return null
   }
 
   return (
-    <div className={props.error ? 'notification error' : 'notification'}>
-      {props.message}
+    <div className={notification.error ? 'notification error' : 'notification'}>
+      {notification.message}
     </div>
   )
 }
 
-export default connect((state) => state.notification)(Notification)
+export default Notification

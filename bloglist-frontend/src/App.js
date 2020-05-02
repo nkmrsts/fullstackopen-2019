@@ -1,37 +1,41 @@
 import React, { useEffect } from 'react'
-import blogService from './services/blogs'
+import { useDispatch, useSelector } from 'react-redux'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import { connect } from 'react-redux'
-import { setNotification } from './reducers/notificationReducer'
+import blogService from './services/blogs'
 import { setUser } from './reducers/userReducer'
 import { setBlogs } from './reducers/blogsReducer'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-function App(props) {
+function App() {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+
   useEffect(() => {
-    blogService.getAll().then((initialBlogs) => props.setBlogs(initialBlogs))
-  }, [props])
+    blogService
+      .getAll()
+      .then((initialBlogs) => dispatch(setBlogs(initialBlogs)))
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      props.setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-  }, [props])
+  }, [dispatch])
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    props.setUser(null)
+    dispatch(setUser(null))
   }
 
-  if (props.user === null) {
+  if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -56,7 +60,7 @@ function App(props) {
         <h2>blogs</h2>
         <Notification />
         <div>
-          <span>{props.user.name} logged in</span>
+          <span>{user.name} logged in</span>
           <button onClick={handleLogout}>logout</button>
         </div>
 
@@ -68,16 +72,4 @@ function App(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    blogs: state.blogs,
-  }
-}
-const mapDispatchToProps = {
-  setUser,
-  setNotification,
-  setBlogs,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

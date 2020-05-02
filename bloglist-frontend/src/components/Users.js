@@ -1,8 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const Users = (props) => {
-  const users = props.blogs.reduce((accumulator, currentValue) => {
+const Users = () => {
+  const blogs = useSelector((state) => state.blogs)
+
+  const users = blogs.reduce((accumulator, currentValue) => {
     const findElement = accumulator.find(
       (item) => item.author === currentValue.author
     )
@@ -39,10 +41,4 @@ const Users = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    blogs: state.blogs,
-  }
-}
-
-export default connect(mapStateToProps, null)(Users)
+export default Users

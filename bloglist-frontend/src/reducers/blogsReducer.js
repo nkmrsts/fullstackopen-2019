@@ -1,20 +1,17 @@
-const blogsReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'SET_BLOGS':
-      return action.blogs
-    default:
-      return state
-  }
-}
+import { createSlice } from '@reduxjs/toolkit'
 
-/*
- * action creators
- */
-export const setBlogs = (blogs) => {
-  return {
-    type: 'SET_BLOGS',
-    blogs,
-  }
-}
+const blogsState = []
 
+const blogsSlice = createSlice({
+  name: 'blogs',
+  reducers: {
+    setBlogs: (state, action) => {
+      return action.payload
+    },
+  },
+  initialState: blogsState,
+})
+
+const blogsReducer = blogsSlice.reducer
+export const { setBlogs } = blogsSlice.actions
 export default blogsReducer

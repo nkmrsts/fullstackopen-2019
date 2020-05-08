@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useField } from '../hooks'
+import { useField } from '../hooks/useField'
 import { setUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import loginService from '../services/login'

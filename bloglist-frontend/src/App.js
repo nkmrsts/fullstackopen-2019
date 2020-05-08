@@ -9,17 +9,16 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import { setUser } from './reducers/userReducer'
-import { setBlogs } from './reducers/blogsReducer'
+import { useBlogs } from './hooks/useBlogs'
 
 function App() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
+  const { fetchBlogs } = useBlogs()
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then((initialBlogs) => dispatch(setBlogs(initialBlogs)))
-  }, [dispatch])
+    fetchBlogs()
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')

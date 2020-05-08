@@ -1,19 +1,14 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useField } from '../hooks'
-import { setNotification } from '../reducers/notificationReducer'
-import { setBlogs } from '../reducers/blogsReducer'
-import blogService from '../services/blogs'
+import { useBlogs} from '../hooks/useBlogs'
 
 const BlogForm = () => {
-  const dispatch = useDispatch()
-  const blogs = useSelector((state) => state.blogs)
-
+  const { addNewBlog } = useBlogs()
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
 
-  const addNewBlog = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
 
     const newBlog = {
@@ -21,28 +16,15 @@ const BlogForm = () => {
       author: author.value,
       url: url.value,
     }
-
-    blogService
-      .create(newBlog)
-      .then((data) => {
-        dispatch(setBlogs(blogs.concat(data)))
-        title.reset()
-        author.reset()
-        url.reset()
-        dispatch(
-          setNotification(
-            `a new blog${data.title} by ${data.author} added`,
-            false
-          )
-        )
-      })
-      .catch((error) => {
-        dispatch(setNotification(error.response.data.error, true))
-      })
+    addNewBlog(newBlog).then(() => {
+      title.reset()
+      author.reset()
+      url.reset()
+    })
   }
 
   return (
-    <form onSubmit={addNewBlog}>
+    <form onSubmit={handleSubmit}>
       <div>
         title
         <input name="title" {...title.excludeReset} />

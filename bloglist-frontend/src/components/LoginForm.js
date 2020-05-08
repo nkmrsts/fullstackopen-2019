@@ -2,12 +2,13 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useField } from '../hooks/useField'
 import { setUser } from '../reducers/userReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { useNotification } from '../hooks/useNotification'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
+  const { notifyMessage } = useNotification()
 
   const username = useField('text')
   const password = useField('password')
@@ -27,9 +28,9 @@ const LoginForm = () => {
       username.reset()
       password.reset()
       dispatch(setUser(user))
-      dispatch(setNotification(`logged in`, false))
+      notifyMessage(`logged in`, false)
     } catch (error) {
-      dispatch(setNotification(error.response.data.error, true))
+      notifyMessage(error.response.data.error, true)
     }
   }
 

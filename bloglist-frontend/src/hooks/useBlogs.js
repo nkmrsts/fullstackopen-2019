@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setBlogs } from '../reducers/blogsReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { useNotification } from '../hooks/useNotification'
 import blogService from '../services/blogs'
 
 export const useBlogs = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
+  const { notifyMessage } = useNotification()
 
   const fetchBlogs = () => {
     blogService.getAll().then((initialBlogs) => {
@@ -18,16 +19,12 @@ export const useBlogs = () => {
       .create(newBlog)
       .then((data) => {
         dispatch(setBlogs(blogs.concat(data)))
-        dispatch(
-          setNotification(
-            `a new blog${data.title} by ${data.author} added`,
-            false
-          )
-        )
+        notifyMessage(`a new blog${data.title} by ${data.author} added`,
+        false)
         return data
       })
       .catch((error) => {
-        dispatch(setNotification(error.response.data.error, true))
+        notifyMessage(error.response.data.error, true)
       })
   }
 
@@ -44,10 +41,11 @@ export const useBlogs = () => {
             blogs.map((_blog) => (_blog.id !== blog.id ? _blog : returnedBlog))
           )
         )
-        dispatch(setNotification(`update blog`, false))
+        notifyMessage(`update blog`, false)
+
       })
       .catch((error) => {
-        dispatch(setNotification(error.response.data.error, true))
+        notifyMessage(error.response.data.error, true)
       })
   }
 
@@ -58,10 +56,10 @@ export const useBlogs = () => {
         .deleteBlog(blog.id)
         .then(() => {
           dispatch(setBlogs(blogs.filter((_blog) => _blog.id !== blog.id)))
-          dispatch(setNotification(`delete blog`, false))
+          notifyMessage(`delete blog`, false)
         })
         .catch((error) => {
-          dispatch(setNotification(error.response.data.error, true))
+          notifyMessage(error.response.data.error, true)
         })
     }
   }

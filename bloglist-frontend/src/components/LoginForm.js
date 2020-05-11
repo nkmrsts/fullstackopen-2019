@@ -1,37 +1,16 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, {useEffect} from 'react'
 import { useField } from '../hooks/useField'
-import { setUser } from '../reducers/userReducer'
-import { useNotification } from '../hooks/useNotification'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
+import { useUser } from '../hooks/useUser'
 
 const LoginForm = () => {
-  const dispatch = useDispatch()
-  const { notifyMessage } = useNotification()
+  const { login } = useUser()
 
   const username = useField('text')
   const password = useField('password')
 
   const handleLogin = async (event) => {
     event.preventDefault()
-
-    try {
-      const user = await loginService.login({
-        username: username.value,
-        password: password.value,
-      })
-
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-
-      blogService.setToken(user.token)
-      username.reset()
-      password.reset()
-      dispatch(setUser(user))
-      notifyMessage(`logged in`, false)
-    } catch (error) {
-      notifyMessage(error.response.data.error, true)
-    }
+    login(username.value, password.value)
   }
 
   return (

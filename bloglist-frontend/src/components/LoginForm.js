@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { useField } from '../hooks/useField'
-import { useUser } from '../hooks/useUser'
+import { useLoginService } from '../hooks/useLoginService'
 
 const LoginForm = () => {
-  const { login } = useUser()
+  const { login } = useLoginService()
 
   const username = useField('text')
   const password = useField('password')

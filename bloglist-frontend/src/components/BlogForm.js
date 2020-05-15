@@ -1,9 +1,9 @@
 import React from 'react'
 import { useField } from '../hooks/useField'
-import { useBlogs} from '../hooks/useBlogs'
+import { useBlogService } from '../hooks/useBlogService'
 
 const BlogForm = () => {
-  const { addNewBlog } = useBlogs()
+  const { addNewBlog } = useBlogService()
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')

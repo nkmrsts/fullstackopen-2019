@@ -1,12 +1,11 @@
 import React from 'react'
 import Blog from '../components/Blog'
 import { useSelector } from 'react-redux'
-import { useBlogs } from '../hooks/useBlogs'
+import { useBlogService } from '../hooks/useBlogService'
 
 const Blogs = () => {
   const user = useSelector((state) => state.user)
-  const blogs = useSelector((state) => state.blogs)
-  const { likeBlog, deleteBlog, sortBlogs } = useBlogs()
+  const { state: blogs, likeBlog, deleteBlog, sortBlogs } = useBlogService()
 
   return (
     <div>

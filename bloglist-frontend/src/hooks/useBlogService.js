@@ -1,11 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
 import { setBlogs } from '../reducers/blogsReducer'
-import { useNotification } from '../hooks/useNotification'
+import { useNotification } from './useNotification'
 import blogService from '../services/blogs'
 
-export const useBlogs = () => {
+export const useBlogService = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector((state) => state.blogs)
+  const state = useSelector((state) => state.blogs)
   const { notifyMessage } = useNotification()
 
   const fetchBlogs = () => {
@@ -18,9 +18,8 @@ export const useBlogs = () => {
     blogService
       .create(newBlog)
       .then((data) => {
-        dispatch(setBlogs(blogs.concat(data)))
-        notifyMessage(`a new blog${data.title} by ${data.author} added`,
-        false)
+        dispatch(setBlogs(state.concat(data)))
+        notifyMessage(`a new blog${data.title} by ${data.author} added`, false)
         return data
       })
       .catch((error) => {
@@ -38,11 +37,10 @@ export const useBlogs = () => {
       .then((returnedBlog) => {
         dispatch(
           setBlogs(
-            blogs.map((_blog) => (_blog.id !== blog.id ? _blog : returnedBlog))
+            state.map((_blog) => (_blog.id !== blog.id ? _blog : returnedBlog))
           )
         )
         notifyMessage(`update blog`, false)
-
       })
       .catch((error) => {
         notifyMessage(error.response.data.error, true)
@@ -55,7 +53,7 @@ export const useBlogs = () => {
       blogService
         .deleteBlog(blog.id)
         .then(() => {
-          dispatch(setBlogs(blogs.filter((_blog) => _blog.id !== blog.id)))
+          dispatch(setBlogs(state.filter((_blog) => _blog.id !== blog.id)))
           notifyMessage(`delete blog`, false)
         })
         .catch((error) => {
@@ -65,8 +63,8 @@ export const useBlogs = () => {
   }
 
   const sortBlogs = () => {
-    dispatch(setBlogs(blogs.slice().sort((a, b) => b.likes - a.likes)))
+    dispatch(setBlogs(state.slice().sort((a, b) => b.likes - a.likes)))
   }
 
-  return { fetchBlogs, addNewBlog, likeBlog, deleteBlog, sortBlogs}
+  return { state, fetchBlogs, addNewBlog, likeBlog, deleteBlog, sortBlogs }
 }

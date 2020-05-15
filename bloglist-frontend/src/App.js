@@ -9,12 +9,12 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import { setUser } from './reducers/userReducer'
-import { useBlogs } from './hooks/useBlogs'
+import { useBlogService } from './hooks/useBlogService'
 
 function App() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-  const { fetchBlogs } = useBlogs()
+  const { fetchBlogs } = useBlogService()
 
   useEffect(() => {
     fetchBlogs()

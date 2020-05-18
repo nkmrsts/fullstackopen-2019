@@ -7,6 +7,7 @@ import App from './App'
 import './index.css'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
+import usersReducer from './reducers/usersReducer'
 import blogsReducer from './reducers/blogsReducer'
 
 const middleWares = [thunk]
@@ -14,6 +15,7 @@ const middleWares = [thunk]
 const reducer = combineReducers({
   notification: notificationReducer,
   user: userReducer,
+  users: usersReducer,
   blogs: blogsReducer,
 })
 

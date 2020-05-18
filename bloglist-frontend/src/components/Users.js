@@ -1,25 +1,7 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const Users = () => {
-  const blogs = useSelector((state) => state.blogs)
-
-  const users = blogs.reduce((accumulator, currentValue) => {
-    const findElement = accumulator.find(
-      (item) => item.author === currentValue.author
-    )
-
-    if (findElement) {
-      findElement.blogs += 1
-    } else {
-      accumulator.push({
-        author: currentValue.author,
-        blogs: 1,
-      })
-    }
-    return accumulator
-  }, [])
-
+const Users = ({ users }) => {
   return (
     <div>
       <h2>Users</h2>
@@ -31,8 +13,10 @@ const Users = () => {
           </tr>
           {users.map((user, index) => (
             <tr key={index}>
-              <td>{user.author}</td>
-              <td>{user.blogs}</td>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </td>
+              <td>{user.blogs.length}</td>
             </tr>
           ))}
         </tbody>

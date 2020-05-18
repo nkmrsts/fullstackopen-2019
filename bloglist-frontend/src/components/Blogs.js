@@ -1,24 +1,30 @@
 import React from 'react'
-import Blog from '../components/Blog'
-import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { useBlogService } from '../hooks/useBlogService'
 
 const Blogs = () => {
-  const user = useSelector((state) => state.user)
-  const { state: blogs, likeBlog, deleteBlog, sortBlogs } = useBlogService()
+  const { state: blogs, sortBlogs } = useBlogService()
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+  }
 
   return (
     <div>
       <button onClick={sortBlogs}>sort</button>
-      {blogs.map((blog, index) => (
-        <Blog
-          blog={blog}
-          user={user}
-          key={index}
-          handleClickLike={likeBlog}
-          handleClickDelete={deleteBlog}
-        />
-      ))}
+      <div>
+        {blogs.map((blog, index) => (
+          <div style={blogStyle} key={index}>
+            <Link to={`/blogs/${blog.id}`}>
+              <strong>{blog.title}</strong>: {blog.author}
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

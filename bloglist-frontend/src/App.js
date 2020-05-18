@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
 import User from './components/User'
@@ -16,7 +17,7 @@ import { useUsersService } from './hooks/useUsersService'
 function App() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-  const { fetchBlogs } = useBlogService()
+  const { state: blogs, fetchBlogs, likeBlog, deleteBlog } = useBlogService()
   const { state: users, fetchUsers } = useUsersService()
 
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
   }
 
   const userById = (id) => users.find((user) => user.id === id)
+  const blogById = (id) => blogs.find((blog) => blog.id === id)
 
   if (user === null) {
     return (
@@ -77,6 +79,19 @@ function App() {
           exact
           path="/users/:id"
           render={({ match }) => <User user={userById(match.params.id)} />}
+        />
+
+        <Route
+          exact
+          path="/blogs/:id"
+          render={({ match }) => (
+            <Blog
+              blog={blogById(match.params.id)}
+              user={user}
+              handleClickLike={likeBlog}
+              handleClickDelete={deleteBlog}
+            />
+          )}
         />
       </div>
     </Router>

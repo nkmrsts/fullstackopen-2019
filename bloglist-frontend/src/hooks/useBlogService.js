@@ -61,9 +61,35 @@ export const useBlogService = () => {
     }
   }
 
+  const commentBlog = async (id, comment) => {
+    blogService
+      .comment(id, comment)
+      .then((returnedBlog) => {
+        dispatch(
+          setBlogs(
+            state.map((_blog) =>
+              _blog.id !== returnedBlog.id ? _blog : returnedBlog
+            )
+          )
+        )
+        notifyMessage(`add comment blog on ${returnedBlog.title}`, false)
+      })
+      .catch((error) => {
+        notifyMessage(error.response.data.error, true)
+      })
+  }
+
   const sortBlogs = () => {
     dispatch(setBlogs(state.slice().sort((a, b) => b.likes - a.likes)))
   }
 
-  return { state, fetchBlogs, addNewBlog, likeBlog, deleteBlog, sortBlogs }
+  return {
+    state,
+    fetchBlogs,
+    addNewBlog,
+    likeBlog,
+    deleteBlog,
+    commentBlog,
+    sortBlogs,
+  }
 }

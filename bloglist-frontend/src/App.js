@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
@@ -62,9 +62,13 @@ function App() {
         <Route
           exact
           path="/blogs/:id"
-          render={({ match }) => (
-            <Blog blog={blogById(match.params.id)} loginUser={loginUser} />
-          )}
+          render={({ match }) =>
+            blogById(match.params.id) ? (
+              <Blog blog={blogById(match.params.id)} loginUser={loginUser} />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
         />
       </div>
     </Router>

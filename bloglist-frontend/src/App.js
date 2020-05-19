@@ -8,6 +8,7 @@ import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import Navigation from './components/Navigation'
 import { useBlogService } from './hooks/useBlogService'
 import { useLoginService } from './hooks/useLoginService'
 
@@ -44,12 +45,9 @@ function App() {
   return (
     <Router>
       <div>
+        <Navigation loginUser={loginUser} logout={logout} />
         <h2>blogs</h2>
         <Notification />
-        <div>
-          <span>{loginUser.name} logged in</span>
-          <button onClick={logout}>logout</button>
-        </div>
 
         <Route exact path="/" render={() => <AllView />} />
 

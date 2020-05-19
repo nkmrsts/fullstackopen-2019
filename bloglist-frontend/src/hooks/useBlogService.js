@@ -14,13 +14,12 @@ export const useBlogService = () => {
     })
   }
 
-  const addNewBlog = (newBlog) => {
+  const addNewBlog = async (newBlog) => {
     blogService
       .create(newBlog)
       .then((data) => {
         dispatch(setBlogs(state.concat(data)))
         notifyMessage(`a new blog${data.title} by ${data.author} added`, false)
-        return data
       })
       .catch((error) => {
         notifyMessage(error.response.data.error, true)

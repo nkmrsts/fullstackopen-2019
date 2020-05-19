@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useUsersService } from '../hooks/useUsersService'
 
-const User = (props) => {
-  if (props.user === undefined) {
+const User = ({ id }) => {
+  const { user, fetchUser } = useUsersService()
+
+  useEffect(() => {
+    fetchUser(id)
+  }, [])
+
+  if (user === null || user.id !== id) {
     return null
   }
 
   return (
     <div>
-      <h2>{props.user.name}</h2>
+      <h2>{user.name}</h2>
       <h3>added blogs</h3>
       <ul>
-        {props.user.blogs.map((blog) => (
-          <li>{blog.title}</li>
+        {user.blogs.map((blog, index) => (
+          <li key={index}>{blog.title}</li>
         ))}
       </ul>
     </div>

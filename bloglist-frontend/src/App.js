@@ -9,21 +9,17 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import { useBlogService } from './hooks/useBlogService'
-import { useUsersService } from './hooks/useUsersService'
 import { useLoginService } from './hooks/useLoginService'
 
 function App() {
   const { state: blogs, fetchBlogs, likeBlog, deleteBlog } = useBlogService()
-  const { state: users, fetchUsers } = useUsersService()
   const { state: loginUser, logout, loggedByLocalStorage } = useLoginService()
 
   useEffect(() => {
     fetchBlogs()
-    fetchUsers()
     loggedByLocalStorage()
   }, [])
 
-  const userById = (id) => users.find((user) => user.id === id)
   const blogById = (id) => blogs.find((blog) => blog.id === id)
 
   if (loginUser === null) {
@@ -57,12 +53,12 @@ function App() {
 
         <Route exact path="/" render={() => <AllView />} />
 
-        <Route exact path="/users" render={() => <Users users={users} />} />
+        <Route exact path="/users" render={() => <Users />} />
 
         <Route
           exact
           path="/users/:id"
-          render={({ match }) => <User user={userById(match.params.id)} />}
+          render={({ match }) => <User id={match.params.id} />}
         />
 
         <Route

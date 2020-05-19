@@ -2,9 +2,9 @@ import React from 'react'
 import { useField } from '../hooks/useField'
 import { useBlogService } from '../hooks/useBlogService'
 
-const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
+const Blog = ({ blog, loginUser }) => {
   const comment = useField('text')
-  const { commentBlog } = useBlogService()
+  const { commentBlog, likeBlog, deleteBlog } = useBlogService()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -24,12 +24,12 @@ const Blog = ({ blog, user, handleClickLike, handleClickDelete }) => {
       <a href={blog.url}>{blog.url}</a>
       <p>
         {blog.likes} likes
-        <button onClick={() => handleClickLike(blog)}>like</button>
+        <button onClick={() => likeBlog(blog)}>like</button>
       </p>
       <p>added by {blog.author}</p>
-      {blog.user && blog.user.name === user.name && (
+      {blog.user && blog.user.name === loginUser.name && (
         <p>
-          <button onClick={() => handleClickDelete(blog)}>delete</button>
+          <button onClick={() => deleteBlog(blog)}>delete</button>
         </p>
       )}
 

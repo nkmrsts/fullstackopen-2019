@@ -13,7 +13,7 @@ import { useBlogService } from './hooks/useBlogService'
 import { useLoginService } from './hooks/useLoginService'
 
 function App() {
-  const { state: blogs, fetchBlogs, likeBlog, deleteBlog } = useBlogService()
+  const { state: blogs, fetchBlogs } = useBlogService()
   const { state: loginUser, logout, loggedByLocalStorage } = useLoginService()
 
   useEffect(() => {
@@ -63,12 +63,7 @@ function App() {
           exact
           path="/blogs/:id"
           render={({ match }) => (
-            <Blog
-              blog={blogById(match.params.id)}
-              user={loginUser}
-              handleClickLike={likeBlog}
-              handleClickDelete={deleteBlog}
-            />
+            <Blog blog={blogById(match.params.id)} loginUser={loginUser} />
           )}
         />
       </div>

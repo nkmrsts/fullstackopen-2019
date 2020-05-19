@@ -8,6 +8,7 @@ import './index.css'
 import notificationReducer from './reducers/notificationReducer'
 import loginUserReducer from './reducers/loginUserReducer'
 import usersReducer from './reducers/usersReducer'
+import userReducer from './reducers/userReducer'
 import blogsReducer from './reducers/blogsReducer'
 
 const middleWares = [thunk]
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   notification: notificationReducer,
   loginUser: loginUserReducer,
   users: usersReducer,
+  user: userReducer,
   blogs: blogsReducer,
 })
 

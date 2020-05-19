@@ -71,6 +71,28 @@ blogsRouter.put('/:id', async (request, response, next) => {
   }
 })
 
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const body = request.body
+
+  try {
+    if (!body.comment) throw { error: 'Empty comments are not allowed' }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      {
+        $push: {
+          comments: body.comment
+        }
+      },
+      {
+        new: true
+      }
+    )
+    response.json(updatedBlog.toJSON())
+  } catch (exception) {
+    next(exception)
+  }
+})
+
 blogsRouter.delete('/:id', async (request, response, next) => {
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
@@ -9,40 +8,25 @@ import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import blogService from './services/blogs'
-import { setUser } from './reducers/userReducer'
 import { useBlogService } from './hooks/useBlogService'
 import { useUsersService } from './hooks/useUsersService'
+import { useLoginService } from './hooks/useLoginService'
 
 function App() {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const { state: blogs, fetchBlogs, likeBlog, deleteBlog } = useBlogService()
   const { state: users, fetchUsers } = useUsersService()
+  const { state: loginUser, logout, loggedByLocalStorage } = useLoginService()
 
   useEffect(() => {
     fetchBlogs()
     fetchUsers()
+    loggedByLocalStorage()
   }, [])
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      dispatch(setUser(user))
-      blogService.setToken(user.token)
-    }
-  }, [dispatch])
-
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogAppUser')
-    dispatch(setUser(null))
-  }
 
   const userById = (id) => users.find((user) => user.id === id)
   const blogById = (id) => blogs.find((blog) => blog.id === id)
 
-  if (user === null) {
+  if (loginUser === null) {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -67,8 +51,8 @@ function App() {
         <h2>blogs</h2>
         <Notification />
         <div>
-          <span>{user.name} logged in</span>
-          <button onClick={handleLogout}>logout</button>
+          <span>{loginUser.name} logged in</span>
+          <button onClick={logout}>logout</button>
         </div>
 
         <Route exact path="/" render={() => <AllView />} />
@@ -87,7 +71,7 @@ function App() {
           render={({ match }) => (
             <Blog
               blog={blogById(match.params.id)}
-              user={user}
+              user={loginUser}
               handleClickLike={likeBlog}
               handleClickDelete={deleteBlog}
             />

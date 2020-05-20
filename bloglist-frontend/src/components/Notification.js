@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react'
 
 const Notification = () => {
   const notification = useSelector((state) => state.notification)
@@ -10,11 +10,9 @@ const Notification = () => {
   }
 
   return (
-    <Container>
-      <Message success={!notification.error} error={notification.error}>
-        {notification.message}
-      </Message>
-    </Container>
+    <Message success={!notification.error} error={notification.error}>
+      {notification.message}
+    </Message>
   )
 }
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { Container, Divider } from 'semantic-ui-react'
 import Blog from './components/Blog'

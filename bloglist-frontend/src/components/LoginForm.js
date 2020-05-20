@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks/useField'
 import { useLoginService } from '../hooks/useLoginService'
 
@@ -14,17 +15,19 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
+    <Form onSubmit={handleLogin}>
+      <Form.Field>
+        <label>username</label>
         <input {...username.excludeReset} name="Username" />
-      </div>
-      <div>
-        password
-        <input {...password.excludeReset} name="Password" />
-      </div>
-      <button type="submit">login</button>
-    </form>
+      </Form.Field>
+      <Form.Field>
+        <label>password</label>
+        <input {...password.excludeReset} name="password" />
+      </Form.Field>
+      <Button type="submit" primary>
+        login
+      </Button>
+    </Form>
   )
 }
 

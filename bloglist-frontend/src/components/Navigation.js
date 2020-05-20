@@ -1,33 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Menu, Button } from 'semantic-ui-react'
 
 const Navigation = (props) => {
-  const navStyle = {
-    listStyleType: 'none',
-    display: 'flex',
-    padding: '5px 0',
-    background: 'gray',
-  }
-  const navItemStyle = {
-    padding: '0 5px',
-  }
-
   return (
     <nav>
-      <ul style={navStyle}>
-        <li style={navItemStyle}>
-          <Link to={'/'}>blogs</Link>
-        </li>
-        <li style={navItemStyle}>
-          <Link to={'/users'}>users</Link>
-        </li>
-        <li style={navItemStyle}>
+      <Menu>
+        <Menu.Item link>
+          <Link to="/">blogs</Link>
+        </Menu.Item>
+        <Menu.Item link>
+          <Link to="/users">users</Link>
+        </Menu.Item>
+        <Menu.Item>
           <span>{props.loginUser.name} logged in</span>
-        </li>
-        <li style={navItemStyle}>
-          <button onClick={props.logout}>logout</button>
-        </li>
-      </ul>
+        </Menu.Item>
+        <Menu.Item>
+          <Button onClick={props.logout}>logout</Button>
+        </Menu.Item>
+      </Menu>
     </nav>
   )
 }

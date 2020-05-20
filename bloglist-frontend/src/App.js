@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { Container, Divider } from 'semantic-ui-react'
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
@@ -25,11 +26,11 @@ function App() {
 
   if (loginUser === null) {
     return (
-      <div>
+      <Container>
         <h2>Log in to application</h2>
         <Notification />
         <LoginForm />
-      </div>
+      </Container>
     )
   }
 
@@ -37,16 +38,19 @@ function App() {
     <div>
       <Togglable buttonLabel="new blog">
         <BlogForm />
+        <Divider />
       </Togglable>
+      <Divider />
       <Blogs />
     </div>
   )
 
   return (
     <Router>
-      <div>
+      <Container>
         <Navigation loginUser={loginUser} logout={logout} />
-        <h2>blogs</h2>
+        <h2>blog app</h2>
+
         <Notification />
 
         <Route exact path="/" render={() => <AllView />} />
@@ -70,7 +74,7 @@ function App() {
             )
           }
         />
-      </div>
+      </Container>
     </Router>
   )
 }

@@ -1,30 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Button, Table } from 'semantic-ui-react'
 import { useBlogService } from '../hooks/useBlogService'
 
 const Blogs = () => {
   const { state: blogs, sortBlogs } = useBlogService()
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  }
-
   return (
     <div>
-      <button onClick={sortBlogs}>sort</button>
-      <div>
-        {blogs.map((blog, index) => (
-          <div style={blogStyle} key={index}>
-            <Link to={`/blogs/${blog.id}`}>
-              <strong>{blog.title}</strong>: {blog.author}
-            </Link>
-          </div>
-        ))}
-      </div>
+      <Button onClick={sortBlogs}>sort</Button>
+      <Table striped celled fixed>
+        <Table.Body>
+          {blogs.map((blog) => (
+            <Table.Row key={blog.id}>
+              <Table.Cell>
+                <Link to={`/blogs/${blog.id}`}>
+                  <strong>{blog.title}</strong>
+                </Link>
+              </Table.Cell>
+              <Table.Cell>{blog.author}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   )
 }

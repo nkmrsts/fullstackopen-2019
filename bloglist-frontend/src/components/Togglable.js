@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 const Togglable = (props) => {
@@ -10,14 +11,14 @@ const Togglable = (props) => {
 
   const hideWhenVisible = () => (
     <div>
-      <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+      <Button onClick={toggleVisibility}>{props.buttonLabel}</Button>
     </div>
   )
 
   const showWhenVisible = () => (
-    <div>
+    <div className="ui segment">
       {props.children}
-      <button onClick={toggleVisibility}>cancel</button>
+      <Button onClick={toggleVisibility}>cancel</Button>
     </div>
   )
   return visible ? showWhenVisible() : hideWhenVisible()

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks/useField'
 import { useBlogService } from '../hooks/useBlogService'
 
@@ -24,21 +25,23 @@ const BlogForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        title
+    <Form onSubmit={handleSubmit}>
+      <Form.Field>
+        <label>title</label>
         <input name="title" {...title.excludeReset} />
-      </div>
-      <div>
-        author
+      </Form.Field>
+      <Form.Field>
+        <label>author</label>
         <input name="author" {...author.excludeReset} />
-      </div>
-      <div>
-        url
+      </Form.Field>
+      <Form.Field>
+        <label>url</label>
         <input {...url.excludeReset} name="url" />
-      </div>
-      <button type="submit">create</button>
-    </form>
+      </Form.Field>
+      <Button type="submit" primary>
+        create
+      </Button>
+    </Form>
   )
 }
 

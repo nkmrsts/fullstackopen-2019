@@ -1,6 +1,7 @@
 import React from 'react'
 import { useField } from '../hooks/useField'
 import { useBlogService } from '../hooks/useBlogService'
+import { Item, Button, Form, List, Divider } from 'semantic-ui-react'
 
 const Blog = ({ blog, loginUser }) => {
   const comment = useField('text')
@@ -19,30 +20,48 @@ const Blog = ({ blog, loginUser }) => {
   }
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
-      <p>
-        {blog.likes} likes
-        <button onClick={() => likeBlog(blog)}>like</button>
-      </p>
-      <p>added by {blog.author}</p>
-      {blog.user && blog.user.name === loginUser.name && (
-        <p>
-          <button onClick={() => deleteBlog(blog)}>delete</button>
-        </p>
-      )}
-
-      <h3>commnets</h3>
-      <form onSubmit={handleSubmit}>
-        <input name="comment" {...comment.excludeReset} />
-        <button type="submit">add comment</button>
-      </form>
-      <ul>
-        {blog.comments &&
-          blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
-      </ul>
-    </div>
+    <Item.Group>
+      <Item>
+        <Item.Content>
+          <Item.Header>{blog.title}</Item.Header>
+          <Item.Meta>added by {blog.author}</Item.Meta>
+          <Item.Description>
+            {blog.likes} likes{' '}
+            <Button size="mini" compact basic onClick={() => likeBlog(blog)}>
+              like
+            </Button>
+            <p>
+              url: <a href={blog.url}>{blog.url}</a>
+            </p>
+          </Item.Description>
+          {blog.user && blog.user.name === loginUser.name && (
+            <Item.Extra>
+              <button onClick={() => deleteBlog(blog)}>delete</button>
+            </Item.Extra>
+          )}
+        </Item.Content>
+      </Item>
+      <Divider />
+      <Item>
+        <Item.Content>
+          <h3>commnets</h3>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Field>
+                <input name="comment" {...comment.excludeReset} />
+              </Form.Field>
+              <Form.Button type="submit">add comment</Form.Button>
+            </Form.Group>
+          </Form>
+          <List bulleted>
+            {blog.comments &&
+              blog.comments.map((comment, index) => (
+                <List.Item key={index}>{comment}</List.Item>
+              ))}
+          </List>
+        </Item.Content>
+      </Item>
+    </Item.Group>
   )
 }
 

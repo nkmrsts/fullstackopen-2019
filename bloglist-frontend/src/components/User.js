@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useUsersService } from '../hooks/useUsersService'
+import { Item, List } from 'semantic-ui-react'
 
 const User = ({ id }) => {
   const { user, fetchUser } = useUsersService()
@@ -13,15 +14,21 @@ const User = ({ id }) => {
   }
 
   return (
-    <div>
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
-        {user.blogs.map((blog, index) => (
-          <li key={index}>{blog.title}</li>
-        ))}
-      </ul>
-    </div>
+    <Item.Group>
+      <Item>
+        <Item.Content>
+          <Item.Header>{user.name}</Item.Header>
+          <Item.Description>
+            <p>added blogs</p>
+            <List bulleted>
+              {user.blogs.map((blog, index) => (
+                <List.Item key={index}>{blog.title}</List.Item>
+              ))}
+            </List>
+          </Item.Description>
+        </Item.Content>
+      </Item>
+    </Item.Group>
   )
 }
 

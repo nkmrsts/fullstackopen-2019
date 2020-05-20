@@ -1,12 +1,15 @@
 import { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { setBlogs } from '../reducers/blogsReducer'
+import { useDispatch } from 'react-redux'
 import { useNotification } from './useNotification'
 import blogService from '../services/blogs'
+import { setBlogs } from '../reducers/blogsReducer'
+import { concatBlog } from '../reducers/blogsReducer'
+import { updateBlog } from '../reducers/blogsReducer'
+import { deleteBlog } from '../reducers/blogsReducer'
+import { sortBlogs } from '../reducers/blogsReducer'
 
 export const useBlogService = () => {
   const dispatch = useDispatch()
-  const state = useSelector((state) => state.blogs)
   const { notifyMessage } = useNotification()
 
   const fetchBlogs = useCallback(() => {
@@ -18,9 +21,9 @@ export const useBlogService = () => {
   const addNewBlog = async (newBlog) => {
     blogService
       .create(newBlog)
-      .then((data) => {
-        dispatch(setBlogs(state.concat(data)))
-        notifyMessage(`a new blog${data.title} by ${data.author} added`, false)
+      .then((blog) => {
+        dispatch(concatBlog(blog))
+        notifyMessage(`a new blog${blog.title} by ${blog.author} added`, false)
       })
       .catch((error) => {
         notifyMessage(error.response.data.error, true)
@@ -36,9 +39,10 @@ export const useBlogService = () => {
       .update(blog.id, newBlog)
       .then((returnedBlog) => {
         dispatch(
-          setBlogs(
-            state.map((_blog) => (_blog.id !== blog.id ? _blog : returnedBlog))
-          )
+          updateBlog({
+            id: blog.id,
+            newBlog: returnedBlog,
+          })
         )
         notifyMessage(`update blog`, false)
       })
@@ -47,13 +51,17 @@ export const useBlogService = () => {
       })
   }
 
-  const deleteBlog = (blog) => {
+  const _deleteBlog = (blog) => {
     const result = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
     if (result) {
       blogService
         .deleteBlog(blog.id)
         .then(() => {
-          dispatch(setBlogs(state.filter((_blog) => _blog.id !== blog.id)))
+          dispatch(
+            deleteBlog({
+              id: blog.id,
+            })
+          )
           notifyMessage(`delete blog`, false)
         })
         .catch((error) => {
@@ -67,11 +75,10 @@ export const useBlogService = () => {
       .comment(id, comment)
       .then((returnedBlog) => {
         dispatch(
-          setBlogs(
-            state.map((_blog) =>
-              _blog.id !== returnedBlog.id ? _blog : returnedBlog
-            )
-          )
+          updateBlog({
+            id: id,
+            newBlog: returnedBlog,
+          })
         )
         notifyMessage(`add comment blog on ${returnedBlog.title}`, false)
       })
@@ -80,17 +87,19 @@ export const useBlogService = () => {
       })
   }
 
-  const sortBlogs = () => {
-    dispatch(setBlogs(state.slice().sort((a, b) => b.likes - a.likes)))
+  const _sortBlogs = () => {
+    dispatch({
+      type: 'SORT',
+    })
+    dispatch(sortBlogs())
   }
 
   return {
-    state,
     fetchBlogs,
     addNewBlog,
     likeBlog,
-    deleteBlog,
+    deleteBlog: _deleteBlog,
     commentBlog,
-    sortBlogs,
+    sortBlogs: _sortBlogs,
   }
 }

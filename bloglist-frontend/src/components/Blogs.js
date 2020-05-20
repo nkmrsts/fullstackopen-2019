@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Button, Table } from 'semantic-ui-react'
 import { useBlogService } from '../hooks/useBlogService'
 
 const Blogs = () => {
-  const { state: blogs, sortBlogs } = useBlogService()
+  const blogs = useSelector((state) => state.blogs)
+  const { sortBlogs } = useBlogService()
 
   return (
     <div>

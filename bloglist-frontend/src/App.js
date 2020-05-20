@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { Container, Divider } from 'semantic-ui-react'
 import Blog from './components/Blog'
@@ -14,7 +15,8 @@ import { useBlogService } from './hooks/useBlogService'
 import { useLoginService } from './hooks/useLoginService'
 
 function App() {
-  const { state: blogs, fetchBlogs } = useBlogService()
+  const blogs = useSelector((state) => state.blogs)
+  const { fetchBlogs } = useBlogService()
   const { state: loginUser, logout, loggedByLocalStorage } = useLoginService()
 
   useEffect(() => {

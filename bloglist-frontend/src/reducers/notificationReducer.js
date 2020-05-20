@@ -12,7 +12,7 @@ const notificationSlice = createSlice({
       const { message, error } = action.payload
       return {
         message,
-        error
+        error,
       }
     },
     clearNotification: (state, action) => {

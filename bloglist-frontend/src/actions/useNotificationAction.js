@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   setNotification,
   clearNotification,
@@ -6,6 +6,7 @@ import {
 
 export const useNotificationAction = () => {
   const dispatch = useDispatch()
+  const state = useSelector((state) => state.notification)
 
   const notifyMessage = (message, error = false) => {
     dispatch(setNotification({ message, error }))
@@ -13,5 +14,7 @@ export const useNotificationAction = () => {
       dispatch(clearNotification())
     }, 10000)
   }
-  return { notifyMessage }
+  const isShowNotification = state.message !== null
+
+  return { notifyMessage, isShowNotification }
 }

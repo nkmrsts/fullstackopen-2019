@@ -2,9 +2,12 @@ import React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks/useField'
 import { useBlogAction } from '../actions/useBlogAction'
+import { useNotificationAction } from '../actions/useNotificationAction'
 
 const BlogForm = () => {
   const { addNewBlog } = useBlogAction()
+  const { isShowNotification } = useNotificationAction()
+
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -38,7 +41,7 @@ const BlogForm = () => {
         <label>url</label>
         <input {...url.excludeReset} name="url" />
       </Form.Field>
-      <Button type="submit" primary>
+      <Button type="submit" primary disabled={isShowNotification}>
         create
       </Button>
     </Form>

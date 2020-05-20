@@ -1,11 +1,13 @@
 import React from 'react'
 import { useField } from '../hooks/useField'
 import { useBlogAction } from '../actions/useBlogAction'
+import { useNotificationAction } from '../actions/useNotificationAction'
 import { Item, Button, Form, List, Divider } from 'semantic-ui-react'
 
 const Blog = ({ blog, loginUser }) => {
   const comment = useField('text')
   const { commentBlog, likeBlog, deleteBlog } = useBlogAction()
+  const { isShowNotification } = useNotificationAction()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -27,7 +29,13 @@ const Blog = ({ blog, loginUser }) => {
           <Item.Meta>added by {blog.author}</Item.Meta>
           <Item.Description>
             {blog.likes} likes{' '}
-            <Button size="mini" compact basic onClick={() => likeBlog(blog)}>
+            <Button
+              size="mini"
+              compact
+              basic
+              disabled={isShowNotification}
+              onClick={() => likeBlog(blog)}
+            >
               like
             </Button>
             <p>
@@ -36,7 +44,14 @@ const Blog = ({ blog, loginUser }) => {
           </Item.Description>
           {blog.user && blog.user.name === loginUser.name && (
             <Item.Extra>
-              <button onClick={() => deleteBlog(blog)}>delete</button>
+              <Button
+                size="mini"
+                compact
+                disabled={isShowNotification}
+                onClick={() => deleteBlog(blog)}
+              >
+                delete
+              </Button>
             </Item.Extra>
           )}
         </Item.Content>
@@ -50,7 +65,9 @@ const Blog = ({ blog, loginUser }) => {
               <Form.Field>
                 <input name="comment" {...comment.excludeReset} />
               </Form.Field>
-              <Form.Button type="submit">add comment</Form.Button>
+              <Form.Button type="submit" disabled={isShowNotification}>
+                add comment
+              </Form.Button>
             </Form.Group>
           </Form>
           <List bulleted>

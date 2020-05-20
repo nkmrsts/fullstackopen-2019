@@ -3,22 +3,23 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
-    jest: true
+    jest: true,
   },
   extends: ['eslint:recommended', 'react-app'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   plugins: ['react-hooks', 'prettier'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
-    'prettier/prettier': 'error'
-  }
+    'react-hooks/exhaustive-deps': 'warn',
+    'prettier/prettier': 'error',
+  },
 }

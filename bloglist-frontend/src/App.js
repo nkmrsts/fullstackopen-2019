@@ -11,13 +11,12 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Navigation from './components/Navigation'
-import { useBlogService } from './hooks/useBlogService'
-import { useLoginService } from './hooks/useLoginService'
+import { useBlogAction } from './actions/useBlogAction'
+import { useLoginAction } from './actions/useLoginAction'
 
 function App() {
-  const blogs = useSelector((state) => state.blogs)
-  const { fetchBlogs } = useBlogService()
-  const { state: loginUser, logout, loggedByLocalStorage } = useLoginService()
+  const { blogs, fetchBlogs } = useBlogAction()
+  const { state: loginUser, logout, loggedByLocalStorage } = useLoginAction()
 
   useEffect(() => {
     fetchBlogs()

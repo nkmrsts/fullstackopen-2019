@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Table } from 'semantic-ui-react'
-import { useUsersService } from '../hooks/useUsersService'
+import { useUsersAction } from '../actions/useUsersAction'
 
 const Users = () => {
-  const { users, fetchUsers } = useUsersService()
+  const { users, fetchUsers } = useUsersAction()
 
   useEffect(() => {
     fetchUsers()

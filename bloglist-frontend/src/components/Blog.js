@@ -1,11 +1,11 @@
 import React from 'react'
 import { useField } from '../hooks/useField'
-import { useBlogService } from '../hooks/useBlogService'
+import { useBlogAction } from '../actions/useBlogAction'
 import { Item, Button, Form, List, Divider } from 'semantic-ui-react'
 
 const Blog = ({ blog, loginUser }) => {
   const comment = useField('text')
-  const { commentBlog, likeBlog, deleteBlog } = useBlogService()
+  const { commentBlog, likeBlog, deleteBlog } = useBlogAction()
 
   const handleSubmit = (event) => {
     event.preventDefault()

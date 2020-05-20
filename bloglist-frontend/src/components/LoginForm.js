@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks/useField'
-import { useLoginService } from '../hooks/useLoginService'
+import { useLoginAction } from '../actions/useLoginAction'
 
 const LoginForm = () => {
-  const { login } = useLoginService()
+  const { login } = useLoginAction()
 
   const username = useField('text')
   const password = useField('password')

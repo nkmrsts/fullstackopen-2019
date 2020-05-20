@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { useUsersService } from '../hooks/useUsersService'
+import { useUsersAction } from '../actions/useUsersAction'
 import { Item, List } from 'semantic-ui-react'
 
 const User = ({ id }) => {
-  const { user, fetchUser } = useUsersService()
+  const { user, fetchUser } = useUsersAction()
 
   useEffect(() => {
     fetchUser(id)

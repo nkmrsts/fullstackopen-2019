@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNotification } from './useNotification'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNotificationAction } from './useNotificationAction'
 import blogService from '../services/blogs'
 import { setBlogs } from '../reducers/blogsReducer'
 import { concatBlog } from '../reducers/blogsReducer'
@@ -8,9 +8,10 @@ import { updateBlog } from '../reducers/blogsReducer'
 import { deleteBlog } from '../reducers/blogsReducer'
 import { sortBlogs } from '../reducers/blogsReducer'
 
-export const useBlogService = () => {
+export const useBlogAction = () => {
   const dispatch = useDispatch()
-  const { notifyMessage } = useNotification()
+  const blogs = useSelector((state) => state.blogs)
+  const { notifyMessage } = useNotificationAction()
 
   const fetchBlogs = useCallback(() => {
     blogService.getAll().then((initialBlogs) => {
@@ -95,6 +96,7 @@ export const useBlogService = () => {
   }
 
   return {
+    blogs,
     fetchBlogs,
     addNewBlog,
     likeBlog,

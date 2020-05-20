@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setLoginUser, clearLoginUser } from '../reducers/loginUserReducer'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
-import { useNotification } from './useNotification'
+import { useNotificationAction } from './useNotificationAction'
 
-export const useLoginService = () => {
+export const useLoginAction = () => {
   const state = useSelector((state) => state.loginUser)
   const dispatch = useDispatch()
-  const { notifyMessage } = useNotification()
+  const { notifyMessage } = useNotificationAction()
 
   const login = async (username, password) => {
     try {

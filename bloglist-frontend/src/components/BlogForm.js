@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useField } from '../hooks/useField'
-import { useBlogService } from '../hooks/useBlogService'
+import { useBlogAction } from '../actions/useBlogAction'
 
 const BlogForm = () => {
-  const { addNewBlog } = useBlogService()
+  const { addNewBlog } = useBlogAction()
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')

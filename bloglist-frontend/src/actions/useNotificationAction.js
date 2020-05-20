@@ -4,7 +4,7 @@ import {
   clearNotification,
 } from '../reducers/notificationReducer'
 
-export const useNotification = () => {
+export const useNotificationAction = () => {
   const dispatch = useDispatch()
 
   const notifyMessage = (message, error = false) => {

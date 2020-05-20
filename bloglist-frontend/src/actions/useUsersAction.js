@@ -4,7 +4,7 @@ import { setUsers } from '../reducers/usersReducer'
 import { setUser } from '../reducers/userReducer'
 import usersService from '../services/users'
 
-export const useUsersService = () => {
+export const useUsersAction = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)

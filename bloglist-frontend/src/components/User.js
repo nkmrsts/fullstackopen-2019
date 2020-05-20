@@ -6,7 +6,7 @@ const User = ({ id }) => {
 
   useEffect(() => {
     fetchUser(id)
-  }, [])
+  }, [fetchUser, id])
 
   if (user === null || user.id !== id) {
     return null

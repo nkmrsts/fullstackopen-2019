@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     fetchBlogs()
     loggedByLocalStorage()
-  }, [])
+  }, [fetchBlogs, loggedByLocalStorage])
 
   const blogById = (id) => blogs.find((blog) => blog.id === id)
 

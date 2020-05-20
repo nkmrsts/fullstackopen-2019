@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setBlogs } from '../reducers/blogsReducer'
 import { useNotification } from './useNotification'
@@ -8,11 +9,11 @@ export const useBlogService = () => {
   const state = useSelector((state) => state.blogs)
   const { notifyMessage } = useNotification()
 
-  const fetchBlogs = () => {
+  const fetchBlogs = useCallback(() => {
     blogService.getAll().then((initialBlogs) => {
       dispatch(setBlogs(initialBlogs))
     })
-  }
+  }, [dispatch])
 
   const addNewBlog = async (newBlog) => {
     blogService

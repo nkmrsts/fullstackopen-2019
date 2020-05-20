@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoginUser, clearLoginUser } from '../reducers/loginUserReducer'
 import blogService from '../services/blogs'
@@ -28,13 +29,14 @@ export const useLoginService = () => {
     dispatch(clearLoginUser())
   }
 
-  const loggedByLocalStorage = () => {
+  const loggedByLocalStorage = useCallback(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(setLoginUser(user))
       blogService.setToken(user.token)
     }
-  }
+  }, [dispatch])
+
   return { state, login, logout, loggedByLocalStorage }
 }

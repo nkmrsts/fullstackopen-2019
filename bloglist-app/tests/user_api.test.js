@@ -22,7 +22,11 @@ describe('when there is initially one user at db', () => {
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash('password', saltRounds)
-    const user = new User({ username: 'root2', name: 'superuser2', passwordHash })
+    const user = new User({
+      username: 'root2',
+      name: 'superuser2',
+      passwordHash
+    })
     await user.save()
 
     const usersAtEnd = await helper.usersInDb()
@@ -37,8 +41,10 @@ describe('when there is initially one user at db', () => {
     const passwordHash = await bcrypt.hash('password', saltRounds)
     const user = new User({ username: 'root', name: 'superuser', passwordHash })
 
-    const res = await user.save().catch(error => error.message )
-    expect(res).toBe('User validation failed: username: Error, expected `username` to be unique. Value: `root`')
+    const res = await user.save().catch(error => error.message)
+    expect(res).toBe(
+      'User validation failed: username: Error, expected `username` to be unique. Value: `root`'
+    )
   })
 
   test('username が3文字以上でない.', async () => {
@@ -46,8 +52,10 @@ describe('when there is initially one user at db', () => {
     const passwordHash = await bcrypt.hash('1234', saltRounds)
     const user = new User({ username: '12', name: 'superuser', passwordHash })
 
-    const res = await user.save().catch(error => error.message )
-    expect(res).toBe('User validation failed: username: Path `username` (`12`) is shorter than the minimum allowed length (3).')
+    const res = await user.save().catch(error => error.message)
+    expect(res).toBe(
+      'User validation failed: username: Path `username` (`12`) is shorter than the minimum allowed length (3).'
+    )
   })
 })
 

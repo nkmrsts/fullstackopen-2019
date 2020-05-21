@@ -26,6 +26,7 @@ describe('Blog ', function () {
     })
 
     it('a new blog can be created', function () {
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(15000)
       cy.contains('new blog').click()
       cy.get('input[name="title"]').type('cypress test')

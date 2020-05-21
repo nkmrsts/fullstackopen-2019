@@ -4,8 +4,9 @@ module.exports = {
     es6: true,
     node: true,
     jest: true,
+    'cypress/globals': true
   },
-  extends: ['eslint:recommended', 'react-app'],
+  extends: ['eslint:recommended', 'react-app', 'plugin:cypress/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -16,7 +17,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['react-hooks', 'prettier'],
+  plugins: ['react-hooks', 'prettier', 'cypress'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',

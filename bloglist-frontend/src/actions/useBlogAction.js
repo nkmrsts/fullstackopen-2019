@@ -24,7 +24,7 @@ export const useBlogAction = () => {
       .create(newBlog)
       .then((blog) => {
         dispatch(concatBlog(blog))
-        notifyMessage(`a new blog${blog.title} by ${blog.author} added`, false)
+        notifyMessage(`a new blog ${blog.title} by ${blog.author} added`, false)
       })
       .catch((error) => {
         notifyMessage(error.response.data.error, true)

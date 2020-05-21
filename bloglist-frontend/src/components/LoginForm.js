@@ -18,7 +18,7 @@ const LoginForm = () => {
     <Form onSubmit={handleLogin}>
       <Form.Field>
         <label>username</label>
-        <input {...username.excludeReset} name="Username" />
+        <input {...username.excludeReset} name="username" />
       </Form.Field>
       <Form.Field>
         <label>password</label>

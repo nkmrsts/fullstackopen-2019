@@ -89,9 +89,6 @@ export const useBlogAction = () => {
   }
 
   const _sortBlogs = () => {
-    dispatch({
-      type: 'SORT',
-    })
     dispatch(sortBlogs())
   }
 

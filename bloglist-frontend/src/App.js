@@ -1,26 +1,24 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
-import { Container, Divider } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
+import AllView from './components/AllView'
 import Blog from './components/Blog'
-import Blogs from './components/Blogs'
-import BlogForm from './components/BlogForm'
 import User from './components/User'
 import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
-import Togglable from './components/Togglable'
 import Navigation from './components/Navigation'
 import { useBlogAction } from './actions/useBlogAction'
 import { useLoginAction } from './actions/useLoginAction'
 
 function App() {
-  const { blogs, fetchBlogs } = useBlogAction()
+  const { blogs } = useBlogAction()
   const { state: loginUser, logout, loggedByLocalStorage } = useLoginAction()
 
   useEffect(() => {
-    fetchBlogs()
     loggedByLocalStorage()
-  }, [fetchBlogs, loggedByLocalStorage])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const blogById = (id) => blogs.find((blog) => blog.id === id)
 
@@ -33,17 +31,6 @@ function App() {
       </Container>
     )
   }
-
-  const AllView = () => (
-    <div>
-      <Togglable buttonLabel="new blog">
-        <BlogForm />
-        <Divider />
-      </Togglable>
-      <Divider />
-      <Blogs />
-    </div>
-  )
 
   return (
     <Router>

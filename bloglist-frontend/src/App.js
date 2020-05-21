@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 import AllView from './components/AllView'
 import Blog from './components/Blog'
@@ -8,19 +8,15 @@ import Users from './components/Users'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Navigation from './components/Navigation'
-import { useBlogAction } from './actions/useBlogAction'
 import { useLoginAction } from './actions/useLoginAction'
 
 function App() {
-  const { blogs } = useBlogAction()
   const { state: loginUser, logout, loggedByLocalStorage } = useLoginAction()
 
   useEffect(() => {
     loggedByLocalStorage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const blogById = (id) => blogs.find((blog) => blog.id === id)
 
   if (loginUser === null) {
     return (
@@ -53,13 +49,7 @@ function App() {
         <Route
           exact
           path="/blogs/:id"
-          render={({ match }) =>
-            blogById(match.params.id) ? (
-              <Blog blog={blogById(match.params.id)} loginUser={loginUser} />
-            ) : (
-              <Redirect to="/" />
-            )
-          }
+          render={({ match }) => <Blog id={match.params.id} />}
         />
       </Container>
     </Router>

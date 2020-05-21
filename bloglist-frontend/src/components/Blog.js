@@ -1,24 +1,29 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useField } from '../hooks/useField'
 import { useBlogAction } from '../actions/useBlogAction'
 import { useNotificationAction } from '../actions/useNotificationAction'
 import { Item, Button, Form, List, Divider } from 'semantic-ui-react'
 
-const Blog = ({ blog, loginUser }) => {
-  const comment = useField('text')
-  const { commentBlog, likeBlog, deleteBlog } = useBlogAction()
+const Blog = ({ id }) => {
+  const { blogs, commentBlog, likeBlog, deleteBlog } = useBlogAction()
+  const loginUser = useSelector((state) => state.loginUser)
   const { isShowNotification } = useNotificationAction()
+
+  const blog = blogs.find((blog) => blog.id === id)
+
+  const comment = useField('text')
 
   const handleSubmit = (event) => {
     event.preventDefault()
-
     commentBlog(blog.id, comment.value).then(() => {
       comment.reset()
     })
   }
 
   if (blog === undefined) {
-    return null
+    return <Redirect to="/" />
   }
 
   return (

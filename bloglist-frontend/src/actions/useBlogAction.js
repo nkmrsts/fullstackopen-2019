@@ -45,7 +45,7 @@ export const useBlogAction = () => {
             newBlog: returnedBlog,
           })
         )
-        notifyMessage(`update blog`, false)
+        notifyMessage(`blog has been liked`, false)
       })
       .catch((error) => {
         notifyMessage(error.response.data.error, true)
@@ -63,7 +63,7 @@ export const useBlogAction = () => {
               id: blog.id,
             })
           )
-          notifyMessage(`delete blog`, false)
+          notifyMessage(`blog has been deleted`, false)
         })
         .catch((error) => {
           notifyMessage(error.response.data.error, true)

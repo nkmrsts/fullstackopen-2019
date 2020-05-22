@@ -12,7 +12,7 @@ export const useNotificationAction = () => {
     dispatch(setNotification({ message, error }))
     setTimeout(() => {
       dispatch(clearNotification())
-    }, 10000)
+    }, 5000)
   }
   const isShowNotification = state.message !== null
 

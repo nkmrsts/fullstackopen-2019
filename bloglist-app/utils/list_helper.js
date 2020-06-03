@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const _ = require('lodash')
 
 const dummy = blogs => {
   // tests
@@ -35,15 +35,15 @@ const favoriteBlog = blogs => {
 
 const mostBlogs = blogs => {
   // tests
-  return _.maxBy(pickObject(blogs, 'blogs'), "blogs")
+  return _.maxBy(pickObject(blogs, 'blogs'), 'blogs')
 }
 
 const mostLikes = blogs => {
   // tests
-  return _.maxBy(pickObject(blogs,'likes'), "likes")
+  return _.maxBy(pickObject(blogs, 'likes'), 'likes')
 }
 
-const pickObject = (blogs, props) =>{
+const pickObject = (blogs, props) => {
   return blogs.reduce((memo, item) => {
     const findIndex = memo.findIndex(elm => {
       return item.author === elm.author

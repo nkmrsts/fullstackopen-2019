@@ -10,8 +10,7 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  const blogObjects = helper.initialBlogs
-    .map(blog => new Blog(blog))
+  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
   const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
 })
@@ -26,7 +25,6 @@ describe('when there is initially some blogs saved', () => {
   })
 
   test('the unique identifier property of the blog posts is named id', async () => {
-
     const resultBlogs = await api
       .get('/api/blogs')
       .expect(200)
@@ -48,14 +46,11 @@ describe('when there is initially some blogs saved', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
 
     const contents = blogsAtEnd.map(b => b.title)
-    expect(contents).toContain(
-      'async/await simplifies making async calls'
-    )
+    expect(contents).toContain('async/await simplifies making async calls')
   })
 
   test('if request don\'t have likes property, added likes: 0', async () => {
@@ -88,15 +83,11 @@ describe('when there is initially some blogs saved', () => {
     test('succeeds with status code 204 if id is valid', async () => {
       const blogsAtStart = await helper.blogsInDb()
       const blogToDelete = blogsAtStart[0]
-      await api
-        .delete(`/api/blogs/${blogToDelete._id}`)
-        .expect(204)
+      await api.delete(`/api/blogs/${blogToDelete._id}`).expect(204)
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd.length).toBe(
-        helper.initialBlogs.length - 1
-      )
+      expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
 
       const contents = blogsAtEnd.map(r => r._id)
 
@@ -122,9 +113,7 @@ describe('when there is initially some blogs saved', () => {
       expect(response.body).not.toBe(blogToUpdate)
 
       const blogsAtEnd = await helper.blogsInDb()
-      expect(blogsAtEnd.length).toBe(
-        helper.initialBlogs.length
-      )
+      expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
     })
   })
 })

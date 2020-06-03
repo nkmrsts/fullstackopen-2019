@@ -14,7 +14,11 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.get('/:id', async (request, response, next) => {
   try {
-    const blog = await Blog.findById(request.params.id)
+    const blog = await Blog.findById(request.params.id).populate('user', {
+      username: 1,
+      name: 1,
+      id: 1
+    })
     if (blog) {
       response.json(blog.toJSON())
     } else {
@@ -64,6 +68,41 @@ blogsRouter.put('/:id', async (request, response, next) => {
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
       new: true
+    }).populate('user', {
+      username: 1,
+      name: 1,
+      id: 1
+    })
+    response.json(updatedBlog.toJSON())
+  } catch (exception) {
+    next(exception)
+  }
+})
+
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const body = request.body
+
+  try {
+    if (!body.comment) {
+      const error = new Error('Empty comments are not allowed')
+      error.name = 'ValidationError'
+      throw error
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      {
+        $push: {
+          comments: body.comment
+        }
+      },
+      {
+        new: true
+      }
+    ).populate('user', {
+      username: 1,
+      name: 1,
+      id: 1
     })
     response.json(updatedBlog.toJSON())
   } catch (exception) {

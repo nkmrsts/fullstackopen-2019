@@ -1,14 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Message } from 'semantic-ui-react'
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const notification = useSelector((state) => state.notification)
+
   if (notification.message === null) {
     return null
   }
 
   return (
-    <div className={notification.error ? 'notification error' : 'notification'}>
+    <Message success={!notification.error} error={notification.error}>
       {notification.message}
-    </div>
+    </Message>
   )
 }
 

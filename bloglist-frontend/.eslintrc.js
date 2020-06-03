@@ -3,22 +3,24 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
-    jest: true
+    jest: true,
+    'cypress/globals': true
   },
-  extends: ['eslint:recommended', 'react-app'],
+  extends: ['eslint:recommended', 'react-app', 'plugin:cypress/recommended'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
-  plugins: ['react-hooks', 'prettier'],
+  plugins: ['react-hooks', 'prettier', 'cypress'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
-    'prettier/prettier': 'error'
-  }
+    'react-hooks/exhaustive-deps': 'warn',
+    'prettier/prettier': 'error',
+  },
 }

@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import AuthorView from './components/AuthorView'
-
-const BooksView = () => {
-  return <div>books</div>
-}
+import BooksView from './components/BooksView'
 
 const App = () => {
   const [view, setView] = useState('authors')

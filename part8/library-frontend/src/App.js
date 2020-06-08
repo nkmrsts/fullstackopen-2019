@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import AuthorsView from './components/AuthorsView'
 import BooksView from './components/BookView'
 import BookForm from './components/BookForm'
-import EditAuthorForm from './components/EditAuthorForm'
+
 
 const App = () => {
   const [view, setView] = useState('authors')
@@ -20,8 +20,7 @@ const App = () => {
       case 'authors':
         return (
           <div>
-            <AuthorsView />
-            <EditAuthorForm onError={handleError}/>
+            <AuthorsView onError={handleError}/>
           </div>
         )
       case 'books':

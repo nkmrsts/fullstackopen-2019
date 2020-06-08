@@ -1,8 +1,9 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { ALL_AUTHORS } from '../queries'
+import EditAuthorForm from '../components/EditAuthorForm'
 
-const AuthorsView = () => {
+const AuthorsView = ({onError}) => {
   const authors = useQuery(ALL_AUTHORS)
 
   if (authors.loading) {
@@ -34,6 +35,7 @@ const AuthorsView = () => {
           }
         </tbody>
       </table>
+      <EditAuthorForm authors={authors.data.allAuthors} onError={onError}/>
     </div>
   )
 }

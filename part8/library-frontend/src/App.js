@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import AuthorView from './components/AuthorView'
+import AuthorsView from './components/AuthorsView'
 import BooksView from './components/BookView'
 import BookForm from './components/BookForm'
+import EditAuthorForm from './components/EditAuthorForm'
 
 const App = () => {
   const [view, setView] = useState('authors')
@@ -17,7 +18,12 @@ const App = () => {
   const Views = () => {
     switch (view) {
       case 'authors':
-        return <AuthorView />
+        return (
+          <div>
+            <AuthorsView />
+            <EditAuthorForm onError={handleError}/>
+          </div>
+        )
       case 'books':
         return <BooksView />
       case 'addBooks':

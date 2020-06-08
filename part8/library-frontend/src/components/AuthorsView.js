@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { ALL_AUTHORS } from '../queries'
 
-const AuthorView = () => {
+const AuthorsView = () => {
   const authors = useQuery(ALL_AUTHORS)
 
   if (authors.loading) {
@@ -38,4 +38,4 @@ const AuthorView = () => {
   )
 }
 
-export default AuthorView
+export default AuthorsView

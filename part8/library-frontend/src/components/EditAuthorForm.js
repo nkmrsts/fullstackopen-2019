@@ -1,13 +1,6 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
-import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries'
 
-const EditAuthorForm = ({authors, onError}) => {
-  const [editAuthor] = useMutation(EDIT_AUTHOR, {
-    onError: onError,
-    refetchQueries: [{ query: ALL_AUTHORS }]
-  })
-
+const EditAuthorForm = ({authors, editAuthor}) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   

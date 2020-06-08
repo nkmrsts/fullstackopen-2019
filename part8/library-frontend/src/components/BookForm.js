@@ -1,13 +1,6 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
-import { ADD_BOOK, ALL_BOOKS } from '../queries'
 
-const BookForm = ({onError}) => {
-  const [addBooks] = useMutation(ADD_BOOK, {
-    onError: onError,
-    refetchQueries: [{ query: ALL_BOOKS }]
-  })
-
+const BookForm = ({addBooks}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
 const EditAuthorForm = ({authors, editAuthor}) => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState(authors[0] ? authors[0].name : '' )
   const [born, setBorn] = useState('')
   
   const handleSubmit = async (e) => {
     e.preventDefault()
     const res = await editAuthor({
-      variables: { name, born }
+      variables: { name, born: born.length > 0 ? Number(born) : null }
     })
     if(res === undefined) return
     setName('')
@@ -28,7 +28,7 @@ const EditAuthorForm = ({authors, editAuthor}) => {
           </select>
         </div>
         <div>
-          borm: <input type="text" value={born} onChange={(e) => setBorn(Number(e.target.value))}/>
+          borm: <input type="number" value={born} onChange={(e) => setBorn(e.target.value)}/>
         </div>
         <div>
           <button type="submit">update author</button>

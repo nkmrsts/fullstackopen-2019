@@ -9,6 +9,9 @@ const AuthorsView = ({editAuthor}) => {
   if (authors.loading) {
     return <div>loading...</div>
   }
+  if(authors.error) {
+    return <div>{authors.error.message}</div>
+  }
 
   return (
     <div>

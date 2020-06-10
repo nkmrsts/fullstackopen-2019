@@ -8,6 +8,9 @@ const BooksView = () => {
   if (books.loading) {
     return <div>loading...</div>
   }
+  if(books.error) {
+    return <div>{books.error.message}</div>
+  }
 
   return (
     <div>
@@ -26,7 +29,7 @@ const BooksView = () => {
               return (
                 <tr key={index}>
                   <td>{books.title}</td>
-                  <td>{books.author}</td>
+                  <td>{books.author.name}</td>
                   <td>{books.published}</td>
                 </tr>
               )

@@ -12,9 +12,15 @@ const BookForm = ({addBooks}) => {
     setGenre('')
   }
 
-  const createBook = async () => {
+  const createBook = async (e) => {
+    e.preventDefault()
     const res = await addBooks({
-      variables: { title, author, published, genres }
+      variables: {
+        title,
+        author,
+        published: published.length > 0 ? Number(published) : null,
+        genres
+      }
     })
     if(res === undefined) return
     setTitle('')
@@ -24,7 +30,7 @@ const BookForm = ({addBooks}) => {
   }
 
   return (
-    <div>
+    <form onSubmit={createBook}>
       <div>
         title: <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
       </div>
@@ -32,19 +38,19 @@ const BookForm = ({addBooks}) => {
         author: <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)}/>
       </div>
       <div>
-        published: <input type="number" value={published} onChange={(e) => setPublished(Number(e.target.value))}/>
+        published: <input type="number" value={published} onChange={(e) => setPublished(e.target.value)}/>
       </div>
       <div>
         <input type="text" value={genre} onChange={(e) => setGenre(e.target.value)}/>
-        <button onClick={() => addGenres()}>add genre</button>
+        <button type="button" onClick={addGenres}>add genre</button>
       </div>
       <div>
         genres: {genres.join(', ')}
       </div>
       <div>
-        <button onClick={() => createBook()}>create book</button>
+        <button type='submit'>create book</button>
       </div>
-    </div>
+    </form>
   )
 }
 

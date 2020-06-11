@@ -8,12 +8,18 @@ import { ALL_AUTHORS, EDIT_AUTHOR, ADD_BOOK, ALL_BOOKS } from './queries'
 const App = () => {
   const [view, setView] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [timer, setTimer] = useState(null)
 
   const handleError = (error) => {
+    if(error !== null) {
+      clearTimeout(timer)
+    }
     setErrorMessage(error.message)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 10000)
+    setTimer(
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 10000)
+    )
   }
 
   const [addBooks] = useMutation(ADD_BOOK, {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AuthorsView from './components/AuthorsView'
 import BooksView from './components/BooksView'
 import BookForm from './components/BookForm'
@@ -9,11 +9,17 @@ import { ALL_AUTHORS, EDIT_AUTHOR, ADD_BOOK, ALL_BOOKS, LOGIN } from './queries'
 
 const App = () => {
   const client = useApolloClient()
-
   const [view, setView] = useState('authors')
   const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [timer, setTimer] = useState(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('booklist-user-token')
+    if(token !== null) {
+      setToken(token)
+    }
+  }, [])
 
   const handleError = (error) => {
     if(error !== null) {

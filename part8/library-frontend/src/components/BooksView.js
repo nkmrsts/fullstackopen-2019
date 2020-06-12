@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { ALL_BOOKS } from '../queries'
+import BooksTable from '../components/BooksTable'
 
 const BooksView = (props) => {
   const books = useQuery(ALL_BOOKS)
@@ -44,28 +45,7 @@ const BooksView = (props) => {
       <p>in genre {
         filter === null ? 'All' : filter
       }</p>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            filteredBooks.map((books, index) => {
-              return (
-                <tr key={index}>
-                  <td>{books.title}</td>
-                  <td>{books.author.name}</td>
-                  <td>{books.published}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+      <BooksTable books={filteredBooks} />
       {genres.map(genre=>(
         <button onClick={()=>handleClick(genre)} key={genre}>{genre}</button>
       ))

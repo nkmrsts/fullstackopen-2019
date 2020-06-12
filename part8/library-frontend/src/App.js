@@ -3,6 +3,7 @@ import AuthorsView from './components/AuthorsView'
 import BooksView from './components/BooksView'
 import BookForm from './components/BookForm'
 import LoginForm from './components/LoginForm'
+import Recommend from './components/Recommend'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
 import { ALL_AUTHORS, EDIT_AUTHOR, ADD_BOOK, ALL_BOOKS, LOGIN } from './queries'
 
@@ -66,6 +67,7 @@ const App = () => {
           <button onClick={() => setView('login')}>login</button> : (
           <>
             <button onClick={() => setView('addBooks')}>add books</button>
+            <button onClick={() => setView('recommend')}>recommend</button>
             <button onClick={logout}>logout</button>
           </>
           )
@@ -74,6 +76,7 @@ const App = () => {
       <AuthorsView show={view === 'authors'} editAuthor={editAuthor}/>
       <BooksView show={ view === 'books'}/>
       <BookForm show={ view === 'addBooks'} addBooks={addBooks}/>
+      <Recommend show={ view === 'recommend'}/>
       <LoginForm show={ view === 'login'} login={login} setToken={(token) => setToken(token)} />
     </div>
   )

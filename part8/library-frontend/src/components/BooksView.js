@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { ALL_BOOKS } from '../queries'
 
-const BooksView = () => {
+const BooksView = (props) => {
   const books = useQuery(ALL_BOOKS)
   const [filter, setFilter] = useState(null)
+
+  if(!props.show) {
+    return null
+  }
  
   if (books.loading) {
     return <div>loading...</div>

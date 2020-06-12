@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 
-const BookForm = ({addBooks}) => {
+const BookForm = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+
+  if(!props.show) {
+    return null
+  }
   
   const addGenres = () => {
     setGenres([...genres, genre])
@@ -14,7 +18,7 @@ const BookForm = ({addBooks}) => {
 
   const createBook = async (e) => {
     e.preventDefault()
-    const res = await addBooks({
+    const res = await props.addBooks({
       variables: {
         title,
         author,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AuthorsView from './components/AuthorsView'
-import BooksView from './components/BookView'
+import BooksView from './components/BooksView'
 import BookForm from './components/BookForm'
 import LoginForm from './components/LoginForm'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
@@ -71,18 +71,10 @@ const App = () => {
           )
         }
       </header>
-      {
-        view === 'authors' && <AuthorsView editAuthor={editAuthor}/>
-      }
-      {
-        view === 'books' && <BooksView />
-      }
-      {
-        view === 'addBooks' && <BookForm addBooks={addBooks}/>
-      }
-      {
-        view === 'login' && <LoginForm login={login} setToken={(token) => setToken(token)} />
-      }
+      <AuthorsView show={view === 'authors'} editAuthor={editAuthor}/>
+      <BooksView show={ view === 'books'}/>
+      <BookForm show={ view === 'addBooks'} addBooks={addBooks}/>
+      <LoginForm show={ view === 'login'} login={login} setToken={(token) => setToken(token)} />
     </div>
   )
 }

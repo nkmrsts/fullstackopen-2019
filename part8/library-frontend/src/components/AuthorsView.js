@@ -3,8 +3,12 @@ import { useQuery } from '@apollo/react-hooks'
 import { ALL_AUTHORS } from '../queries'
 import EditAuthorForm from '../components/EditAuthorForm'
 
-const AuthorsView = ({editAuthor}) => {
+const AuthorsView = (props) => {
   const authors = useQuery(ALL_AUTHORS)
+
+  if(!props.show) {
+    return null
+  }
 
   if (authors.loading) {
     return <div>loading...</div>
@@ -38,7 +42,7 @@ const AuthorsView = ({editAuthor}) => {
           }
         </tbody>
       </table>
-      <EditAuthorForm authors={authors.data.allAuthors} editAuthor={editAuthor}/>
+      <EditAuthorForm authors={authors.data.allAuthors} editAuthor={props.editAuthor}/>
     </div>
   )
 }

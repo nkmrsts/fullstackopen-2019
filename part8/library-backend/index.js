@@ -116,11 +116,11 @@ const resolvers = {
           await newAuthor.save()
           const book = new Book({ ...args, author: newAuthor.id })
           await book.save()
-          return book
+          return book.populate('author')
         } else {
           const book = new Book({ ...args, author: foundAuthor.id })
           await book.save()
-          return book
+          return book.populate('author')
         }
       } catch (error) {
         throw new UserInputError(error.message, {

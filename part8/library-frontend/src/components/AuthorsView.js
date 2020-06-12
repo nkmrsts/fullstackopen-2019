@@ -6,10 +6,6 @@ import EditAuthorForm from '../components/EditAuthorForm'
 const AuthorsView = (props) => {
   const authors = useQuery(ALL_AUTHORS)
 
-  if(!props.show) {
-    return null
-  }
-
   if (authors.loading) {
     return <div>loading...</div>
   }

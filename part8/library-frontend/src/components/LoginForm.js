@@ -4,10 +4,6 @@ const LoginForm = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  if(!props.show) {
-    return null
-  }
-
   const submit = async (event) => {
     event.preventDefault()
 

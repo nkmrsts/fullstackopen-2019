@@ -7,10 +7,6 @@ const Recommend = (props) => {
   const books = useQuery(ALL_BOOKS)
   const user = useQuery(ME)
 
-  if(!props.show) {
-    return null
-  }
- 
   if (books.loading || user.loading) {
     return <div>loading...</div>
   }

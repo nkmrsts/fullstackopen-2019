@@ -79,11 +79,21 @@ const App = () => {
           )
         }
       </header>
-      <AuthorsView show={view === 'authors'} editAuthor={editAuthor}/>
-      <BooksView show={ view === 'books'}/>
-      <BookForm show={ view === 'addBooks'} addBooks={addBooks}/>
-      <Recommend show={ view === 'recommend'}/>
-      <LoginForm show={ view === 'login'} login={login} setToken={(token) => setToken(token)} />
+      {
+        view === 'authors' && <AuthorsView editAuthor={editAuthor}/>
+      }
+      {
+        view === 'books' && <BooksView/>
+      }
+      {
+        view === 'addBooks' && <BookForm addBooks={addBooks}/>
+      }
+      {
+        view === 'recommend' && <Recommend/>
+      }
+      {
+        view === 'login' && <LoginForm login={login} setToken={(token) => setToken(token)} />
+      }  
     </div>
   )
 }

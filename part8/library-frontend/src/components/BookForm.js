@@ -7,10 +7,6 @@ const BookForm = (props) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
-  if(!props.show) {
-    return null
-  }
-  
   const addGenres = () => {
     setGenres([...genres, genre])
     setGenre('')

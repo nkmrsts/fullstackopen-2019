@@ -4,8 +4,8 @@ import BooksView from './components/BooksView'
 import BookForm from './components/BookForm'
 import LoginForm from './components/LoginForm'
 import Recommend from './components/Recommend'
-import { useApolloClient, useMutation } from '@apollo/react-hooks'
-import { ALL_AUTHORS, EDIT_AUTHOR, ADD_BOOK, ALL_BOOKS, LOGIN } from './queries'
+import { useApolloClient, useMutation, useSubscription } from '@apollo/react-hooks'
+import { ALL_AUTHORS, BOOK_ADDED, EDIT_AUTHOR, ADD_BOOK, ALL_BOOKS, LOGIN } from './queries'
 
 const App = () => {
   const client = useApolloClient()
@@ -13,6 +13,12 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [timer, setTimer] = useState(null)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+    }
+  })
 
   useEffect(() => {
     const token = localStorage.getItem('booklist-user-token')

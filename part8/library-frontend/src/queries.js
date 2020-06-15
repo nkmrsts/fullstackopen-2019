@@ -37,6 +37,7 @@ export const FILTER_BOOKS = gql`
     allBooks(genre: $genre) {
       ...BookDetails
     }
+    ${BOOK_DETAILS}  
   }
   ${BOOK_DETAILS}
 `
@@ -81,4 +82,13 @@ export const LOGIN = gql`
       value
     }
   }
+`
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
 `

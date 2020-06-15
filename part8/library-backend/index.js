@@ -135,7 +135,7 @@ const resolvers = {
       }
 
       try {
-         return await Author.findOneAndUpdate({ name: args.name}, { born: args.setBornTo  })
+         return await Author.findOneAndUpdate({ name: args.name}, { born: args.setBornTo  }, { new: true })
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,

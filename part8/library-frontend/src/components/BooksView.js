@@ -30,8 +30,8 @@ const BooksView = () => {
   if (allBooks.loading || filterBooksLoading) {
     return <div>loading...</div>
   }
-  if(allBooks.error) {
-    return <div>{books.error.message}</div>
+  if(allBooks && allBooks.error) {
+    return <div>{allBooks.error.message}</div>
   }
 
   const genres = allBooks.data.allBooks.reduce((accumulator, book) => {
@@ -62,7 +62,7 @@ const BooksView = () => {
             :
           allBooks.data.allBooks
       }/>
-      {genres.map(genre=>(
+      {genres && genres.map(genre=>(
         <button onClick={()=>handleClick(genre)} key={genre}>{genre}</button>
       ))
       }

@@ -110,18 +110,21 @@ const resolvers = {
       }
 
       const foundAuthor = await Author.findOne({ name: args.author })
-      try {
-        if(!foundAuthor) {
-          const newAuthor = new Author({ name: args.author })
-          await newAuthor.save()
-          const book = new Book({ ...args, author: newAuthor.id })
-          await book.save()
-          return book.populate('author')
-        } else {
-          const book = new Book({ ...args, author: foundAuthor.id })
-          await book.save()
-          return book.populate('author')
+      if(!foundAuthor) {
+        try {
+            const newAuthor = new Author({ name: args.author })
+            await newAuthor.save()
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
         }
+      }
+
+      try {
+        const book = new Book({ ...args, author: foundAuthor })
+        const respnose = await book.save()
+        return respnose.populate('author')
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,

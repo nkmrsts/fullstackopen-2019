@@ -19,7 +19,8 @@ const BOOK_DETAILS = gql`
       bookCount
     }
     published
-    genres
+    genres,
+    id
   }
 `
 

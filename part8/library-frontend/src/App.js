@@ -14,9 +14,30 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [timer, setTimer] = useState(null)
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => 
+      set.map(p => p.id).includes(object.id)  
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      dataInStore.allBooks.push(addedBook)
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: dataInStore
+      })
+    }
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
-      console.log(subscriptionData)
+      const addedBook = subscriptionData.data.bookAdded
+      updateCacheWith(addedBook)
+      setErrorMessage(`${addedBook.title} added`)
+      setTimer(
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 10000)
+      )
     }
   })
 
@@ -43,6 +64,8 @@ const App = () => {
     onError: handleError,
     refetchQueries: [{ query: ALL_AUTHORS }],
     update: (store, response) => {
+      updateCacheWith(response.data.addBook)
+
       const booksDataInStore = store.readQuery({ query: ALL_BOOKS })
       booksDataInStore.allBooks.push(response.data.addBook)
       store.writeQuery({
@@ -50,6 +73,7 @@ const App = () => {
         data: booksDataInStore
       })
     }
+
   })
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {

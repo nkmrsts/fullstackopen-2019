@@ -56,8 +56,10 @@ const BooksView = () => {
         filter === null ? 'All' : filter
       }</p>
       <BooksTable books={
-        filter !== null && books && books.data && books.data.allBooks ?
-          books.data.allBooks :
+        filter !== null ?
+          books && books.data && books.data.allBooks ?
+            books.data.allBooks : undefined
+            :
           allBooks.data.allBooks
       }/>
       {genres.map(genre=>(

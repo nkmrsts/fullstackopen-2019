@@ -36,6 +36,7 @@ const typeDefs = gql`
     name: String!
     id: ID!
     born: Int
+    books: [Book!]
     bookCount: Int!
   }
   type User {
@@ -99,13 +100,13 @@ const resolvers = {
       }
       return Book.find({}).populate('author')
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => Author.find({}).populate('books'),
     me: (root, args, context) => {
       return context.currentUser
     }
   },
   Author: {
-    bookCount: (root) => Book.find({ author: {$in: [root.id]}}).countDocuments()
+    bookCount: (root) => root.books.length
   },
   Mutation: {
     addBook: async (root, args, context) => {
@@ -119,22 +120,37 @@ const resolvers = {
         try {
             const newAuthor = new Author({ name: args.author })
             await newAuthor.save()
+
+            const book = new Book({ ...args, author: newAuthor })
+            await book.save()
+
+            newAuthor.books = [
+              ...newAuthor.books, book
+            ]
+            await newAuthor.save()
+
+            pubsub.publish('BOOK_ADDED', { bookAdded: book })
+            return book.populate('author')
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args,
           })
         }
-      }
-
-      try {
-        const book = new Book({ ...args, author: foundAuthor })
-        await book.save()
-        pubsub.publish('BOOK_ADDED', { bookAdded: book })
-        return book.populate('author')
-      } catch (error) {
-        throw new UserInputError(error.message, {
-          invalidArgs: args,
-        })
+      } else {
+        try {
+          const book = new Book({ ...args, author: foundAuthor })
+          await book.save()
+          foundAuthor.books = [
+            ...foundAuthor.books, book
+          ]
+          await foundAuthor.save()
+          pubsub.publish('BOOK_ADDED', { bookAdded: book })
+          return book.populate('author')
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        }
       }
     },
     editAuthor: async (root, args, context) => {
